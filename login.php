@@ -8,9 +8,9 @@
             $user->setPassword($_POST['password']);
             
             if($user->login()){
-                $id= $user->getIdByEmail();
+                $id = $user->getIdByEmail();
                 session_start();
-                $_SESSION['user']=$id['id'];
+                $_SESSION['user'] = $id['id'];
                 header('Location: index.php');
             } 
         }
@@ -33,11 +33,11 @@
             <form action="" method="post">
                 <div class="form__field">
                     <label for="email">email</label>
-                    <input type="text" id="email" name="email" placeholder="email">
+                    <input type="text" id="email" name="email" placeholder="email" required>
                 </div>
                 <div class="form__field">
                     <label for="password">password</label>
-                    <input type="password" id="password" name="password" placeholder="password">
+                    <input type="password" id="password" name="password" placeholder="password" required>
                 </div>
                 <div class="form__field">
                     <input type="submit" value="Login" class="button">

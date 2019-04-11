@@ -81,15 +81,12 @@
         
         // REGISTER
         public function register(){
-            $options = [
-                'cost' => 14,
-            ];
-            
+            $options = ['cost' => 14,];
             $password = password_hash($this->password , PASSWORD_DEFAULT , $options);
 
             try{
                 $conn = new PDO("mysql:host=localhost;dbname=projectphp;","root","");
-                $statement = $conn->prepare("INSERT into users (email,  password, firstname, lastname, avatar, bio) VALUES (:email,:password,:firstname,:lastname,:avatar,:bio)");
+                $statement = $conn->prepare("INSERT INTO users (email,  password, firstname, lastname, avatar, bio) VALUES (:email,:password,:firstname,:lastname,:avatar,:bio)");
                 $statement->bindParam(":email", $this->email);
                 $statement->bindParam(":password",$password);
                 $statement->bindParam(":firstname",$this->firstname);
@@ -97,7 +94,8 @@
                 $statement->bindParam(":avatar",$this->avatar);
                 $statement->bindParam(":bio",$this->bio);
                 $result = $statement->execute();
-                return $result;
+                return true;
+                
             }catch (Throwable $t){
                 return false;
             }
@@ -107,7 +105,7 @@
         // LOGIN
         public function login(){
             $conn = new PDO("mysql:host=localhost;dbname=projectphp;","root","");
-            $statement = $conn->prepare("select * from users where email = :email");
+            $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
             $statement->bindValue(":email", $this->getEmail());
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_OBJ);

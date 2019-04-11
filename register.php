@@ -3,7 +3,7 @@
 
 	require_once("classes/User.class.php");
 
-	 if( !empty($_POST)){
+	 if(!empty($_POST)){
 		 $user = new User();
 		 $user-> setEmail($_POST['email']);
 		 $user-> setPassword($_POST['password']);
@@ -13,6 +13,8 @@
 		 $user-> setAvatar($_POST['avatar']);
 		 $user-> setBio($_POST['bio']);
 		 $user-> register();
+         
+         header("Location: index.php");
 	 }
 ?>
 <!DOCTYPE html>
@@ -34,36 +36,36 @@
 
                     <div class="form__field">
                         <label for="email">Email</label>
-                        <input type="text" id="email" name="email">
+                        <input type="text" id="email" name="email" required>
                     </div>
                     <div class="form__field">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password">
+                        <input type="password" id="password" name="password" required>
                     </div>
 
                     <div class="form__field">
                         <label for="password_confirmation">Confirm your password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation">
+                        <input type="password" id="password_confirmation" name="password_confirmation" required>
                     </div>
                     
                     <div class="form__field">
                         <label for="firstname">First Name</label>
-                        <input type="text" id="firstname" name="firstname">
+                        <input type="text" id="firstname" name="firstname" required>
                     </div>
                     
                     <div class="form__field">
                         <label for="lastname">Last Name</label>
-                        <input type="text" id="lastname" name="lastname">
+                        <input type="text" id="lastname" name="lastname" required>
                     </div>
                     
                     <div class="form__field">
                         <label for="avatar">Avatar</label>
-                        <input type="text" id="avatar" name="avatar">
+                        <input type="text" id="avatar" name="avatar" required>
                     </div>
                     
                     <div class="form__field">
                         <label for="bio">Bio</label>
-                        <input type="text" id="bio" name="bio">
+                        <input type="text" id="bio" name="bio" required>
                     </div>
 
                     <div class="form__field">
