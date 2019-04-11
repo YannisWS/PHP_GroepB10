@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Gegenereerd op: 07 apr 2019 om 14:27
+-- Gegenereerd op: 11 apr 2019 om 15:45
 -- Serverversie: 10.2.13-MariaDB
 -- PHP-versie: 7.0.28
 
@@ -80,9 +80,9 @@ CREATE TABLE `inappropriate` (
 
 CREATE TABLE `likes` (
   `like_id` int(11) NOT NULL,
-  `like_image_id` int(11) NOT NULL,
+  `like_post_id` int(11) NOT NULL,
   `like_send_id` int(11) NOT NULL,
-  `like_receieve_id` int(11) NOT NULL
+  `like_receive_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -94,9 +94,8 @@ CREATE TABLE `likes` (
 CREATE TABLE `posts` (
   `id` int(11) NOT NULL,
   `file_location` varchar(500) NOT NULL,
-  `image_user_id` int(11) NOT NULL,
+  `post_user_id` int(11) NOT NULL,
   `description` varchar(500) NOT NULL,
-  `user` varchar(500) NOT NULL,
   `date` datetime NOT NULL,
   `filter` varchar(20) NOT NULL,
   `location` varchar(250) NOT NULL
@@ -126,37 +125,48 @@ CREATE TABLE `users` (
 -- Indexen voor tabel `comments`
 --
 ALTER TABLE `comments`
-  ADD PRIMARY KEY (`comment_id`);
+  ADD PRIMARY KEY (`comment_id`),
+  ADD KEY `comment_user_id` (`comment_user_id`),
+  ADD KEY `comment_post_id` (`comment_post_id`);
 
 --
 -- Indexen voor tabel `filters`
 --
 ALTER TABLE `filters`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `post_id` (`post_id`);
 
 --
 -- Indexen voor tabel `friendlist`
 --
 ALTER TABLE `friendlist`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `friend_id` (`friend_id`);
 
 --
 -- Indexen voor tabel `inappropriate`
 --
 ALTER TABLE `inappropriate`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `post_id` (`post_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexen voor tabel `likes`
 --
 ALTER TABLE `likes`
-  ADD PRIMARY KEY (`like_id`);
+  ADD PRIMARY KEY (`like_id`),
+  ADD KEY `like_post_id` (`like_post_id`),
+  ADD KEY `like_send_id` (`like_send_id`),
+  ADD KEY `like_receieve_id` (`like_receive_id`);
 
 --
 -- Indexen voor tabel `posts`
 --
 ALTER TABLE `posts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `post_user_id` (`post_user_id`);
 
 --
 -- Indexen voor tabel `users`
@@ -209,6 +219,51 @@ ALTER TABLE `posts`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Beperkingen voor geëxporteerde tabellen
+--
+
+--
+-- Beperkingen voor tabel `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`comment_post_id`) REFERENCES `posts` (`id`),
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`comment_user_id`) REFERENCES `users` (`id`);
+
+--
+-- Beperkingen voor tabel `filters`
+--
+ALTER TABLE `filters`
+  ADD CONSTRAINT `filters_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`);
+
+--
+-- Beperkingen voor tabel `friendlist`
+--
+ALTER TABLE `friendlist`
+  ADD CONSTRAINT `friendlist_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `friendlist_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `users` (`id`);
+
+--
+-- Beperkingen voor tabel `inappropriate`
+--
+ALTER TABLE `inappropriate`
+  ADD CONSTRAINT `inappropriate_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`),
+  ADD CONSTRAINT `inappropriate_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Beperkingen voor tabel `likes`
+--
+ALTER TABLE `likes`
+  ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`like_post_id`) REFERENCES `posts` (`id`),
+  ADD CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`like_receive_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `likes_ibfk_3` FOREIGN KEY (`like_send_id`) REFERENCES `users` (`id`);
+
+--
+-- Beperkingen voor tabel `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`post_user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
