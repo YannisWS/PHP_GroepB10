@@ -7,16 +7,15 @@
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['password']);
             
-            if($user->login()){
-                $id = $user->getIdByEmail();
-                session_start();
-                $_SESSION['user'] = $id['id'];
-                header('Location: index.php');
-            } 
+            $user->login();
+            $id = $user->getIdByEmail();
+            session_start();
+            $_SESSION['user'] = $id['id'];
+            header('Location: index.php');
         }
     }
     catch(Exception $e) {
-        //$error= $e->getMessage();
+        echo'<div class="form__error"><p>Something went wrong</p></div>';
     } 
 
 ?>

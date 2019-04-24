@@ -2,19 +2,24 @@
     ini_set('display_errors',1); error_reporting(E_ALL);//errors
 
 	require_once("classes/User.class.php");
-
+    
 	 if(!empty($_POST)){
-		 $user = new User();
-		 $user-> setEmail($_POST['email']);
-		 $user-> setPassword($_POST['password']);
-         $user-> setPasswordConfirmation($_POST['password_confirmation']);
-		 $user-> setFirstname($_POST['firstname']);
-		 $user-> setLastname($_POST['lastname']);
-		 $user-> setAvatar($_POST['avatar']);
-		 $user-> setBio($_POST['bio']);
-		 $user-> register();
-         
-         header("Location: index.php");
+         try{
+             $user = new User();
+             $user-> setEmail($_POST['email']);
+             $user-> setPassword($_POST['password']);
+             $user-> setPasswordConfirmation($_POST['password_confirmation']);
+             $user-> setFirstname($_POST['firstname']);
+             $user-> setLastname($_POST['lastname']);
+             $user-> setAvatar($_POST['avatar']);
+             $user-> setBio($_POST['bio']);
+             $user-> register();
+
+             header("Location: index.php");
+         }
+         catch(Exception $e) {
+            echo'<div class="form__error"><p>Something went wrong</p></div>';
+         }
 	 }
 ?>
 <!DOCTYPE html>
@@ -29,10 +34,6 @@
             <div class="form form--login">
                 <form action="" method="post">
                     <h2 form__title>Sign up for an account</h2>
-
-                    <div class="form__error hidden">
-                        <p>Some error here</p>
-                    </div>
 
                     <div class="form__field">
                         <label for="email">Email</label>
