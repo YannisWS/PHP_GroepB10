@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Gegenereerd op: 11 apr 2019 om 15:45
--- Serverversie: 10.2.13-MariaDB
--- PHP-versie: 7.0.28
+-- Host: 127.0.0.1
+-- Gegenereerd op: 24 apr 2019 om 20:43
+-- Serverversie: 10.1.34-MariaDB
+-- PHP-versie: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `yanniai252_ProjectPHP`
+-- Database: `projectphp`
 --
 
 -- --------------------------------------------------------
@@ -44,7 +44,6 @@ CREATE TABLE `comments` (
 
 CREATE TABLE `filters` (
   `id` int(11) NOT NULL,
-  `post_id` int(11) NOT NULL,
   `filter` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -97,7 +96,7 @@ CREATE TABLE `posts` (
   `post_user_id` int(11) NOT NULL,
   `description` varchar(500) NOT NULL,
   `date` datetime NOT NULL,
-  `filter` varchar(20) NOT NULL,
+  `filter_id` int(11) DEFAULT NULL,
   `location` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -118,6 +117,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Gegevens worden geëxporteerd voor tabel `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `password`, `firstname`, `lastname`, `avatar`, `bio`) VALUES
+(8, 'test', '$2y$14$iGSvNCkDhczscaQNf2cHI./f.idw9C73qIUwXkPYiMlFrlA0RxV8a', 'test', 'test', 'test', 'test');
+
+--
 -- Indexen voor geëxporteerde tabellen
 --
 
@@ -133,8 +139,7 @@ ALTER TABLE `comments`
 -- Indexen voor tabel `filters`
 --
 ALTER TABLE `filters`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `post_id` (`post_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexen voor tabel `friendlist`
@@ -166,7 +171,8 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `post_user_id` (`post_user_id`);
+  ADD KEY `post_user_id` (`post_user_id`),
+  ADD KEY `filter_id` (`filter_id`);
 
 --
 -- Indexen voor tabel `users`
@@ -218,7 +224,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
@@ -230,12 +236,6 @@ ALTER TABLE `users`
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`comment_post_id`) REFERENCES `posts` (`id`),
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`comment_user_id`) REFERENCES `users` (`id`);
-
---
--- Beperkingen voor tabel `filters`
---
-ALTER TABLE `filters`
-  ADD CONSTRAINT `filters_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`);
 
 --
 -- Beperkingen voor tabel `friendlist`
@@ -263,7 +263,8 @@ ALTER TABLE `likes`
 -- Beperkingen voor tabel `posts`
 --
 ALTER TABLE `posts`
-  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`post_user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`post_user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`filter_id`) REFERENCES `filters` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
