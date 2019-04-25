@@ -7,15 +7,17 @@
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['password']);
             
-            $user->login();
-            $id = $user->getIdByEmail();
-            session_start();
-            $_SESSION['user'] = $id['id'];
-            header('Location: index.php');
+            if($user->login()){
+                $id = $user->getIdByEmail();
+                session_start();
+                $_SESSION['user'] = $id['id'];
+                header('Location: index.php');
+                
+            } 
         }
     }
     catch(Exception $e) {
-        echo'<div class="form__error"><p>Something went wrong</p></div>';
+        //$error= $e->getMessage();
     } 
 
 ?>
@@ -23,7 +25,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>IMDFlix</title>
+        <title>Welcome to IMDFlix</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
