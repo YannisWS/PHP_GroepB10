@@ -7,13 +7,12 @@
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['password']);
             
-            if($user->login()){
+            $user->login();
                 $id = $user->getIdByEmail();
                 session_start();
                 $_SESSION['user'] = $id['id'];
                 header('Location: index.php');
-                
-            } 
+              
         }
     }
     catch(Exception $e) {
