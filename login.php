@@ -7,12 +7,12 @@
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['password']);
             
-            $user->login();
+            if($user->login()){
                 $id = $user->getIdByEmail();
                 session_start();
                 $_SESSION['user'] = $id['id'];
                 header('Location: index.php');
-              
+            } 
         }
     }
     catch(Exception $e) {
@@ -24,7 +24,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Welcome to IMDFlix</title>
+        <title>IMDFlix</title>
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
