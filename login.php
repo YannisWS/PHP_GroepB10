@@ -1,5 +1,5 @@
 <?php
-    require_once("classes/User.class.php");
+    require_once("bootstrap.php");
 
     try{
         if(!empty($_POST)){

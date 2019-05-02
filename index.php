@@ -1,16 +1,7 @@
 <?php
+    require_once("bootstrap.php");
 
-spl_autoload_register(function($class){
-    include_once ("classes/" . $class . ".class.php");
-});
-
-session_start(); 
-/*
-if (!isset($_SESSION['user'])) {
-    header('location: logout.php');
-}
-*/
-
+    Session::check();
 ?>
 <!doctype html>
 <html lang="en">
