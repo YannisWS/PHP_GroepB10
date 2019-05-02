@@ -1,6 +1,5 @@
 <?php
-    include_once("Db.class.php");
-
+ 
     class User {
         private $email;
         private $password;
@@ -84,9 +83,8 @@
         public function register(){
             $options = ['cost' => 14,];
             $password = password_hash($this->password , PASSWORD_DEFAULT , $options);
-
             try{
-                $conn = Db::getInstance();
+                $conn = new PDO("mysql:host=localhost;dbname=projectphp;","root","root");
                 $statement = $conn->prepare("INSERT INTO users (email,  password, firstname, lastname, avatar, bio) VALUES (:email,:password,:firstname,:lastname,:avatar,:bio)");
                 $statement->bindParam(":email", $this->email);
                 $statement->bindParam(":password",$password);
@@ -105,7 +103,7 @@
         
         // LOGIN
         public function login(){
-            $conn = Db::getInstance();
+            $conn = new PDO("mysql:host=localhost;dbname=projectphp;","root","root");
             $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
             $statement->bindValue(":email", $this->getEmail());
             $statement->execute();
@@ -129,12 +127,11 @@
         
         // GET ID BY EMAIL
         public function getIdByEmail(){
-            $conn = Db::getInstance();
+            $conn = new PDO("mysql:host=localhost;dbname=projectphp;","root","root");
             $statement = $conn->prepare("SELECT id FROM users WHERE email = :email");
             $statement->bindValue(":email", $this->getEmail());
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);
-
             return $result;
         }
         // GET ID BY EMAIL
