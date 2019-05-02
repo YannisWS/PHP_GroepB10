@@ -17,19 +17,26 @@
             <a href="#">profile</a>
             <a href="logout.php">logout</a>
         </nav>
-        <main>
-            <div class="container">
+        <div class="container">
+            <main>
+                <a href="upload.php"></a> <!-- CREATE NEW POST -->
                 <section class="grid">
                     <div class="grid-item"></div>
-                    <?php foreach(Project::getProjects() as $p): ?>
-                        <a href="<?php echo $p['id']; ?>" class="grid-item">
-                          <img src="files/post/<?php echo $p['id']; ?>" alt="">
+                    <?php foreach(Feed::getFeed() as $f): ?>                        
+                        <a href="post.php?p=<?php echo $f['posts.id']; ?>" class="grid-item"> <!-- VISIT POST -->
+                          <img src="img/post/<?php echo $f['posts.file_location']; ?>" alt="post">
                         </a>
-                      <?php endforeach; ?>
+                    <?php endforeach; ?>
                   </section>
-              </div>
-        </main>
+              </main>
+        </div>
     </body>
+    <script 
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script>
         $('.grid').masonry({
             itemSelector: '.grid-item',
