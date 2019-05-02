@@ -1,7 +1,9 @@
 <?php
     require_once("bootstrap.php");
-
     Session::check();
+
+    $feed = new Feed();
+    $feed->setFeed($_SESSION['user']);
 ?>
 <!doctype html>
 <html lang="en">
@@ -22,7 +24,7 @@
                 <a href="upload.php"></a> <!-- CREATE NEW POST -->
                 <section class="grid">
                     <div class="grid-item"></div>
-                    <?php foreach(Feed::getFeed() as $f): ?>                        
+                    <?php foreach(Feed::createFeed() as $f): ?>                        
                         <a href="post.php?p=<?php echo $f['posts.id']; ?>" class="grid-item"> <!-- VISIT POST -->
                           <img src="img/post/<?php echo $f['posts.file_location']; ?>" alt="post">
                         </a>
