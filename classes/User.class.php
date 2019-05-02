@@ -105,7 +105,7 @@
         
         // LOGIN
         public function login(){
-            $$conn = Db::getInstance();
+            $conn = Db::getInstance();
             $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
             $statement->bindValue(":email", $this->getEmail());
             $statement->execute();
