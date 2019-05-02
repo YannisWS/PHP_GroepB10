@@ -15,9 +15,6 @@ if(isset($_GET['user'])){
     
 };
 
-$user->setId($id);
-$searchedUser = $user->getDetails();
-$followed= $user->checkFollower();
 
 
 if(!empty($_POST)){
@@ -25,7 +22,6 @@ if(!empty($_POST)){
     if( $_POST['general'] ) {
         $user->setFirstName($_POST['firstname']);
         $user->setLastName($_POST['lastname']);
-        $user->setUserName($_POST['username']);
         $user->setDescription($_POST['description']);
 
 
@@ -118,37 +114,30 @@ if(!empty($_POST)){
 	<title>Phomo | Profile settings</title>
 </head>
 <body>   
-   <?php include_once("nav.inc.php"); ?>
    <div class="profile_settings">
    <h1>Profile settings</h1>
    <img src="<?php echo htmlspecialchars($searchedUser->picture);?>" alt="avatar" class="edit_avatar" id="preview">
    
    <form action="" method="post" enctype="multipart/form-data">
        <div class="formfield" id="first_input">
-            <label for="image_upload" class="button_upload" id="choose_image">Edit profile pic</label>
-            <input type="file" name="image" id="image_upload" accept=".jpg, .jpeg, .png"  onchange="filePreview(this);">
+            <label for="avatar" class="button_upload" id="choose_image">Edit profile pic</label>
+            <input type="file" name="image" id="avatar" accept=".jpg, .jpeg, .png"  onchange="filePreview(this);">
         </div>	    
     
 	    <div class="formfield">
 	        <label for="firstname" class="profile_label">Firstname</label>
-			<input type="text" id="firstname" name="firstname" value="<?php echo htmlspecialchars($searchedUser->firstname) ?>" onchange="showButtons(id);">
+			<input type="text" id="firstname" name="firstname" value="" onchange="showButtons(id);">
 		</div>
 
     
 	    <div class="formfield">
 	        <label for="lastname" class="profile_label">Lastname</label>
-			<input type="text" id="lastname" name="lastname" value="<?php echo htmlspecialchars($searchedUser->lastname) ?>" onchange="showButtons(id);">
+			<input type="text" id="lastname" name="lastname" value="" onchange="showButtons(id);">
 		</div>
 
         <div class="formfield">
-            <label for="username" class="profile_label">Username</label>
-			<input type="text" id="username" name="username" value="<?php echo htmlspecialchars($searchedUser->username) ?>">
-        </div>
-
-        
-        <div class="formfield">
-            <label for="description" class="profile_label">Description</label>
-            <textarea id="description" name="description"><?php echo Post::convertHashtoLink(htmlspecialchars($searchedUser->description));?></textarea>
+            <label for="bio" class="profile_label">Description</label>
+            <textarea id="bio" name="bio"></textarea>
         </div>
     
 		<div class="formfield" id="submit">
@@ -162,7 +151,7 @@ if(!empty($_POST)){
     <form action="" method="post" enctype="multipart/form-data">
 	    <div class="formfield">
 	        <label for="email" class="profile_label">E-mail</label>
-			<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($searchedUser->email);?>">
+			<input type="text" id="email" name="email" value="">
 		</div>
 
         <div class="formfield">
@@ -171,8 +160,8 @@ if(!empty($_POST)){
         </div>
 
         <div class="formfield invisible newpass">
-            <label for="password_confirmation" class="profile_label">New Password confirmation</label>
-            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm your password" autocomplete="new-password">
+            <label for="passwordconfirmation" class="profile_label">New Password confirmation</label>
+            <input type="password" id="passwordconfirmation" name="password_confirmation" placeholder="Confirm your password" autocomplete="new-password">
         </div>
         
         <div class="formfield">
