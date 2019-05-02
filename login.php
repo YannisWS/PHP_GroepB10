@@ -1,5 +1,5 @@
 <?php
-    require_once("classes/User.class.php");
+    require_once("bootstrap.php");
 
     try{
         if(!empty($_POST)){
@@ -25,7 +25,6 @@
     <head>
         <meta charset="UTF-8">
         <title>IMDFlix</title>
-        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
        <main>
