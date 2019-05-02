@@ -28,7 +28,9 @@ if (!isset($_SESSION['user'])) {
         <a href="logout.php">logout</a>
     </nav>
     <main>
-        
+        <section>
+            <img src="post/" alt="">
+        </section>
     </main>
 </body>
 </html>

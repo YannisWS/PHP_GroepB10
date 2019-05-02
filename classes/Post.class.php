@@ -1,7 +1,7 @@
 <?php
 
-    include_once( "Db.class.php" );
-    include_once( "Hashtag.class.php" );
+    include_once("Db.php");
+    include_once("Hashtag.class.php");
 
     class Post {
         private $id;

@@ -1,5 +1,6 @@
 <?php
- 
+    include_once("Db.php");
+
     class User {
         private $email;
         private $password;
@@ -85,7 +86,7 @@
             $password = password_hash($this->password , PASSWORD_DEFAULT , $options);
 
             try{
-                $conn = new PDO("mysql:host=localhost;dbname=projectphp;","root","");
+                $conn = Db::getInstance();
                 $statement = $conn->prepare("INSERT INTO users (email,  password, firstname, lastname, avatar, bio) VALUES (:email,:password,:firstname,:lastname,:avatar,:bio)");
                 $statement->bindParam(":email", $this->email);
                 $statement->bindParam(":password",$password);
@@ -104,7 +105,7 @@
         
         // LOGIN
         public function login(){
-            $conn = new PDO("mysql:host=localhost;dbname=projectphp;","root","");
+            $$conn = Db::getInstance();
             $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
             $statement->bindValue(":email", $this->getEmail());
             $statement->execute();
@@ -128,7 +129,7 @@
         
         // GET ID BY EMAIL
         public function getIdByEmail(){
-            $conn = new PDO("mysql:host=localhost;dbname=projectphp;","root","");
+            $conn = Db::getInstance();
             $statement = $conn->prepare("SELECT id FROM users WHERE email = :email");
             $statement->bindValue(":email", $this->getEmail());
             $statement->execute();
