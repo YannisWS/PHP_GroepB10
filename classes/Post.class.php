@@ -178,6 +178,8 @@
             return $result;
         }
 
+
+
         /** Add post to database */
         public function add() {
             $conn = Db::getInstance();

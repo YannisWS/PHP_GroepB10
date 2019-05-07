@@ -17,11 +17,10 @@
         <a href="#">logo</a>
         <a href="#">profile</a>
         <a href="logout.php">logout</a>
+        <a href="imgUpload.php">Upload</a>
     </nav>
     <main>
-        <section>
-            <img src="post/" alt="">
-        </section>
+
     </main>
 </body>
 </html>
