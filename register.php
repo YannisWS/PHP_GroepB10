@@ -1,7 +1,5 @@
 <?php
-    ini_set('display_errors',1); error_reporting(E_ALL);//errors
-
-	require_once("classes/User.class.php");
+    require_once("bootstrap.php");
 
 	 if(!empty($_POST)){
 		 $user = new User();
