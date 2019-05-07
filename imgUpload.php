@@ -1,16 +1,10 @@
 <?php
-include_once("classes/Db.class.php");
-include_once("classes/Post.class.php");
-
-
-session_start();
-
+    require_once("bootstrap.php");
 
     if(!empty($_POST)){
 
         $description=$_POST["besch"];
         $filter = $_POST["slctFilter"];
-
 
         $p = new Post();
         $p->moveImage();
@@ -20,11 +14,6 @@ session_start();
         $p->add();
 
     }
-
-
-
-
-
 ?>
 <!doctype html>
 <html lang="en">

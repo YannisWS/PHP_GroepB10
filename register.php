@@ -1,20 +1,18 @@
 <?php
-    ini_set('display_errors',1); error_reporting(E_ALL);//errors
+    require_once("bootstrap.php");
 
-	require_once("classes/User.class.php");
-
-	 if(!empty($_POST)){
-		 $user = new User();
-		 $user-> setEmail($_POST['email']);
-		 $user-> setPassword($_POST['password']);
-         $user-> setPasswordConfirmation($_POST['password_confirmation']);
-		 $user-> setFirstname($_POST['firstname']);
-		 $user-> setLastname($_POST['lastname']);
-		 $user-> setAvatar($_POST['avatar']);
-		 $user-> setBio($_POST['bio']);
-		 $user-> register();
+    if(!empty($_POST)){
+        $user = new User();
+        $user-> setEmail($_POST['email']);
+        $user-> setPassword($_POST['password']);
+        $user-> setPasswordConfirmation($_POST['password_confirmation']);
+        $user-> setFirstname($_POST['firstname']);
+        $user-> setLastname($_POST['lastname']);
+        $user-> setAvatar($_POST['avatar']);
+        $user-> setBio($_POST['bio']);
+        $user-> register();
          
-         header("Location: index.php");
+        header("Location: index.php");
 	 }
 ?>
 <!DOCTYPE html>
@@ -74,27 +72,5 @@
                 <a href="login.php">Already have an account?</a>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script>
-        /*	$("#btnSubmit").keyup(function(e){
-                var email = $("#email").val();
-                console.log(text);*/
-            /*	$.ajax({
-                    method: "POST",
-                    url: "ajax/email.php",
-                    data: { email: email },
-                    dataType: "JSON"
-                })
-                .done(function( res ) {
-                    if(res.status == "succes"){
-                    /*	var li = "<li style='display:none'>" + text + "</li>"; 
-                        $("#listupdates").append(li);
-                        $("#comment").val("").focus();
-                        $("#listupdates li").last().slideDown();*/
-                /*	}
-                 });
-                e.preventDefault();
-            });*/
-        </script>
     </body>
 </html>

@@ -1,55 +1,50 @@
 <?php
+    require_once("bootstrap.php");
 
-include_once("classes/Session.class.php");
-include_once("classes/User.class.php");
-include_once("classes/Post.class.php");
+    if(!empty($_GET)) {
 
+        $userID = $_GET['userID'];
+        $_SESSION['targetUserID'] = $_GET['userID'];
 
-if(!empty($_GET)) {
-
-    $userID = $_GET['userID'];
-    $_SESSION['targetUserID'] = $_GET['userID'];
-
-    $profile = new User();
-    $r=$profile->getProfile($userID);
-    $followers=$profile->getFollowCount($userID);
-    $follow=$profile->getFollowerCount($userID);
-    $postcount=$profile->getPostCount($userID);
+        $profile = new User();
+        $r=$profile->getProfile($userID);
+        $followers=$profile->getFollowCount($userID);
+        $follow=$profile->getFollowerCount($userID);
+        $postcount=$profile->getPostCount($userID);
 
 
 
-    $username = $r['email'];
-    $bioText = $r['bio'];
-    $avatar = $r['avatar'];
-    $userID = $r['id'];
+        $username = $r['email'];
+        $bioText = $r['bio'];
+        $avatar = $r['avatar'];
+        $userID = $r['id'];
 
-if($_SESSION['userid']===$_SESSION['targetUserID']){
-        $show="show";
-        $unshow="";
-        $btnClass="";
-        $btnText="";
-        $feed = new User();
-        $res = $feed->getProfileFeed($userID);
-
-}else   {
-        $show="";
-        $unshow="unshow";
-        if ($profile->followCheck()) {
-            $btnClass = "btnUnfollow";
-            $btnText = "FOLLOWING";
+    if($_SESSION['userid']===$_SESSION['targetUserID']){
+            $show="show";
+            $unshow="";
+            $btnClass="";
+            $btnText="";
             $feed = new User();
             $res = $feed->getProfileFeed($userID);
 
-        } else {
-            // als hij nog niet gevolgd wordt, geen feed, wel boodschap.
-            $btnClass = "btnFollow";
-            $btnText = "Follow";
-            $feed = new User();
-            $res = $feed->getProfileFeed($userID);
-        }
+    }else   {
+            $show="";
+            $unshow="unshow";
+            if ($profile->followCheck()) {
+                $btnClass = "btnUnfollow";
+                $btnText = "FOLLOWING";
+                $feed = new User();
+                $res = $feed->getProfileFeed($userID);
 
-}
+            } else {
+                // als hij nog niet gevolgd wordt, geen feed, wel boodschap.
+                $btnClass = "btnFollow";
+                $btnText = "Follow";
+                $feed = new User();
+                $res = $feed->getProfileFeed($userID);
+            }
 
+    }
 }
 
 
