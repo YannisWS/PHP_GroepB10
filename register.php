@@ -1,16 +1,16 @@
 <?php
     require_once("bootstrap.php");
 
-    if(!empty($_POST)){
-        $user = new User();
-        $user-> setEmail($_POST['email']);
-        $user-> setPassword($_POST['password']);
-        $user-> setPasswordConfirmation($_POST['password_confirmation']);
-        $user-> setFirstname($_POST['firstname']);
-        $user-> setLastname($_POST['lastname']);
-        $user-> setAvatar($_POST['avatar']);
-        $user-> setBio($_POST['bio']);
-        $user-> register();
+	if(!empty($_POST)){
+		$user = new User();
+		$user-> setEmail($_POST['email']);
+		$user-> setPassword($_POST['password']);
+		$user-> setPasswordConfirmation($_POST['password_confirmation']);
+		$user-> setFirstname($_POST['firstname']);
+		$user-> setLastname($_POST['lastname']);
+		$user-> setAvatar($_POST['avatar']);
+		$user-> setBio($_POST['bio']);
+		$user-> register();
          
         header("Location: index.php");
 	 }
