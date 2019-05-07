@@ -1,7 +1,7 @@
 <?php
 
-    include_once("Db.php");
-    include_once("Hashtag.class.php");
+    include_once("Db.class.php");
+   
 
     class Post {
         private $id;
@@ -202,6 +202,51 @@
     
         }
 
+        private function cropimage($file,$maxresolution){
+
+            if(file_exists($file)){
+                $originalimage=imagecreatefromjpeg($file);
+                $originalwidth=imagesx($originalimage);
+                $originalheight=imagesy($originalimage);
+    
+                //try max width
+                if($originalheight>$originalwidth) {
+                    $ratio = $maxresolution / $originalwidth;
+                    $newwidth = $maxresolution;
+                    $newheight = $originalheight * $ratio;
+    
+                    $verschil=$newheight-$newwidth;
+    
+                    $x=0;
+                    $y= round($verschil/2);
+                }
+    
+                else
+    
+                //als da ni werkt
+                {
+                    $ratio=$maxresolution/$originalheight;
+                    $newheight=$maxresolution;
+                    $newwidth=$originalwidth*$ratio;
+    
+                    $verschil=$newwidth-$newheight;
+    
+                    $x=round($verschil/2);
+                    $y= 0;
+                }
+    
+                if($originalimage){
+                    $newimage=imagecreatetruecolor($newwidth,$newheight);
+                    imagecopyresampled($newimage,$originalimage,0,0,0,0,$newwidth,$newheight,$originalwidth,$originalheight);
+    
+                    $newcropimage=imagecreatetruecolor($maxresolution,$maxresolution);
+                    imagecopyresampled($newcropimage,$newimage,0,0,$x,$y,$maxresolution,$maxresolution,$maxresolution,$maxresolution);
+    
+                    imagejpeg($newcropimage,$file,90);
+                }
+            }
+    
+        }
 
 
         /** Add post to database */

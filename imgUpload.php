@@ -1,6 +1,7 @@
 <?php
-include_once ('classes/Db.class.php');
-include_once ('classes/Post.class.php');
+include_once("classes/Db.class.php");
+include_once("classes/Post.class.php");
+
 
 session_start();
 
@@ -118,7 +119,6 @@ session_start();
 
 <body>
 
-<?php include_once("includes/nav.inc.php"); ?>
 <div style="font-family: Oswald,sans-serif;" class="col-lg-4 mx-auto">
 <div id="tit"><h4>Upload an image</h4></div>
 <div class="form">
