@@ -12,7 +12,7 @@ session_start();
 
 
         $p = new Post();
-        $p->setImagePath($imagepath);
+        $p->moveImage();
         $p->setImageFilterId($filter);
         $p->setDescription($description);
         $p->setLocation($lat,$lng);

@@ -178,6 +178,30 @@
             return $result;
         }
 
+        public function moveImage()
+        {
+    
+            $fileName=$_FILES["file"]["name"];
+            $fileTmpName=$_FILES["file"]["tmp_name"];
+            $imagepath= "files/" . $_SESSION['userid']."-" . time().".jpg";
+            $fileExt=explode(".",$fileName);
+            $fileActualExt=strtolower(end($fileExt));
+            $allowed=array('jpg','jpeg','png');
+            if(in_array($fileActualExt,$allowed)){
+                move_uploaded_file($fileTmpName, $imagepath);
+                $this->cropimage($imagepath,"400");
+    
+                $this->imagepath=$imagepath;
+    
+    
+            }
+            else{
+                throw new exception("Oops you can't upload that file type");
+    
+            }    
+    
+        }
+
 
 
         /** Add post to database */
