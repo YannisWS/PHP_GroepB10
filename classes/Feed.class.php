@@ -1,32 +1,31 @@
 <?php
     class Feed{
-        
-        public function getFeed(){
-            return $this->feed;
-        }
 
         public function SetFeed($feed){
             $this->feed = $feed;
             return $this;
         }
 
-        public function createFeed(){
+        public function getFeed(){
             $conn = Db::getInstance();
             $statement = $conn->prepare("
-                SELECT friendlist.user_id, friendlist.friend_id, posts.id, posts.posts_user_id, posts.file_location, posts.date
-                FROM posts, friendlist
+                SELECT *
+                FROM users, friendlist, posts
                 
                 INNER JOIN friendlist
-                ON posts.posts_user_id=friendlist.user_id
+				ON posts.posts_user_id = users.id
+				
+				INNER JOIN posts
+                ON friendlist.user_id = users.id
                 
-                WHERE friendlist.:user = friendlist.user_id
+                WHERE :user = friendlist.user_id
+				ORDER BY date DESC
                 LIMIT 20
-                ORDER BY date DESC
                 ");
-            
             $statement->bindValue(":user", $this->getFeed());
             $statement->execute();
-            $feed = $statement->fetchAll();
+			$feed = $statement->fetch(PDO::FETCH_ASSOC);
+			//$feed = $statement->fetchAll();
             return $feed;
         }
     }
@@ -41,4 +40,5 @@
 
 //SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
 //FROM Orders
-//INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
+//INNER JOIN Customers 
+//ON Orders.CustomerID=Customers.CustomerID;
