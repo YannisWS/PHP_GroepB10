@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 08 mei 2019 om 20:53
+-- Gegenereerd op: 08 mei 2019 om 21:00
 -- Serverversie: 10.1.34-MariaDB
 -- PHP-versie: 7.2.7
 
@@ -34,17 +34,6 @@ CREATE TABLE `comments` (
   `comment_text` varchar(500) NOT NULL,
   `comment_post_id` int(11) NOT NULL,
   `comment_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `filters`
---
-
-CREATE TABLE `filters` (
-  `id` int(11) NOT NULL,
-  `filter` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -95,7 +84,7 @@ CREATE TABLE `posts` (
   `post_user_id` int(11) NOT NULL,
   `description` varchar(500) NOT NULL,
   `date` datetime NOT NULL,
-  `filter_id` int(11) DEFAULT NULL,
+  `filter` int(11) DEFAULT NULL,
   `location` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -136,12 +125,6 @@ ALTER TABLE `comments`
   ADD KEY `comment_post_id` (`comment_post_id`);
 
 --
--- Indexen voor tabel `filters`
---
-ALTER TABLE `filters`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexen voor tabel `friendlist`
 --
 ALTER TABLE `friendlist`
@@ -170,8 +153,7 @@ ALTER TABLE `likes`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `post_user_id` (`post_user_id`),
-  ADD KEY `filter_id` (`filter_id`);
+  ADD KEY `post_user_id` (`post_user_id`);
 
 --
 -- Indexen voor tabel `users`
@@ -188,12 +170,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `comments`
   MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT voor een tabel `filters`
---
-ALTER TABLE `filters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT voor een tabel `friendlist`
@@ -261,8 +237,7 @@ ALTER TABLE `likes`
 -- Beperkingen voor tabel `posts`
 --
 ALTER TABLE `posts`
-  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`post_user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`filter_id`) REFERENCES `filters` (`id`);
+  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`post_user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
