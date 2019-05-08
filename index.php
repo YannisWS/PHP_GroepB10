@@ -30,9 +30,9 @@
                 <a href="upload.php"></a> <!-- CREATE NEW POST -->
                 <section class="grid">
                     <div class="grid-item"></div>
-                    <?php foreach(Feed::createFeed() as $f): ?>                        
-                        <a href="post.php?p=<?php echo $f['posts.id']; ?>" class="grid-item"> <!-- VISIT POST -->
-                          <img src="img/post/<?php echo $f['posts.file_location']; ?>" alt="post">
+                    <?php foreach($getPosts() as $p): ?>                        
+                        <a href="post.php?p=<?php echo $p['posts.id']; ?>" class="grid-item"> <!-- VISIT POST -->
+                          <img src="img/post/<?php echo $p['posts.file_location']; ?>" alt="post">
                         </a>
                     <?php endforeach; ?>
                   </section>
