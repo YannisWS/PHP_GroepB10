@@ -1,8 +1,15 @@
 <?php
     require_once("bootstrap.php");
     Session::check();
-    $feed = new Feed();
-    $feed->setFeed($_SESSION['user']);
+		
+	if(empty($_SESSION['user'])){
+		header('Location: login.php');
+	}
+	else{
+		$user_feed = $_SESSION['user'];
+		$feed = new Feed();
+		$feed->setFeed($user_feed);
+	}
 ?>
 <!doctype html>
 <html lang="en">
