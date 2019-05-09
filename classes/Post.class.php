@@ -13,159 +13,106 @@
         private $dateadd;
         private $dateremove;
 
-        /**
-         * @param mixed $id
-         */
+       // ID
         public function setId($id) {
             $this->id = $id;
         }
-
-        /**
-         * @param mixed $userId
-         */
+		
+		public function getId() {
+            return $this->id;
+        }
+		
+		// USER ID
         public function setUserId($userId) {
             $this->userId = $userId;
         }
+		
+		public function getUserId() {
+            return $this->userId;
+        }
 
-        /**
-         * @param mixed $description
-         */
+        // DESCRIPTION
         public function setDescription($description) {
             if( empty( $description) ) {
                 throw new Exception( "Please fill in a description about your post." );
             }
             $this->description = $description;
         }
+		
+		public function getDescription() {
+            return $this->description;
+        }
 
-        /**
-         * @param mixed $imagePath
-         */
+        // IMAGE PATH
         public function setImagePath($imagepath) {
             if( empty( $imagepath ) ) {
                 throw new Exception( "Please choose a photo to upload." );
             }
-
             $this->imagePath = $imagepath;
         }
-
-        /**
-         * @param mixed $imageColor
-         */
-        public function setImageColor($imagecolor) {
-            $this->imagecolor = $imagecolor;
-        }
-
-        /**
-         * @param mixed $filter
-         */
-        public function setImageFilterId($filter) {
-            $this->filter = $filter;
-        }
-
-        /**
-         * @param mixed $location
-         */
-        public function setLocation($location) {
-            $this->location = $location;
-        }
-
-        /**
-         * @param mixed $locationName
-         */
-        public function setLocationName($locationname) {
-            $this->locationname = $locationname;
-        }
-
-        /**
-         * @param mixed $dateAdded
-         */
-        public function setDateAdded($dateadd) {
-            $this->dateadd = $dateadd;
-        }
-
-        /**
-         * @param mixed $dateDeleted
-         */
-        public function setDateDeleted($dateremove) {
-            $this->dateremove = $dateremove;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getUserId() {
-            return $this->userId;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getDescription() {
-            return $this->description;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getImagePath() {
+		
+		public function getImagePath() {
             return $this->imagepath;
         }
 
-        /**
-         * @return mixed
-         */
-        public function getImageColor() {
+        // IMAGE COLOR
+        public function setImageColor($imagecolor) {
+            $this->imagecolor = $imagecolor;
+        }
+		
+		public function getImageColor() {
             return $this->imagecolor;
         }
 
-        /**
-         * @return mixed
-         */
-        public function getImageFilterId() {
+        // IMAGE FILTER
+        public function setImageFilterId($filter) {
+            $this->filter = $filter;
+        }
+		
+		public function getImageFilterId() {
             return $this->filter;
         }
 
-        /**
-         * @return mixed
-         */
-        public function getLocation() {
+        // LOCATION
+        public function setLocation($location) {
+            $this->location = $location;
+        }
+		
+		public function getLocation() {
             return $this->location;
         }
 
-        /**
-         * @return mixed
-         */
-        public function getLocationName() {
+        // LOCATION NAME ??????????????????????????????????????????????????????????
+        public function setLocationName($locationname) {
+            $this->locationname = $locationname;
+        }
+		
+		public function getLocationName() {
             return $this->locationname;
         }
 
-        /**
-         * @return mixed
-         */
-        public function getDateAdded() {
+        // DATE ADDED
+        public function setDateAdded($dateadd) {
+            $this->dateadd = $dateadd;
+        }
+		
+		public function getDateAdded() {
             return $this->dateadd;
         }
 
-        /**
-         * @return mixed
-         */
-        public function getDateDeleted() {
+        // DATE DELETED
+        public function setDateDeleted($dateremove) {
+            $this->dateremove = $dateremove;
+        }
+		
+		public function getDateDeleted() {
             return $this->dateremove;
         }
 
-        /**
-         * @return mixed
-         */
-        public function getId() {
-            return $this->id;
-        }
-
-
-        /** Get post info from database */
+        // SELECT FROM DATABASE
         public function getPostData() {
             $conn = Db::getInstance();
 
-            // Select from database
             $statement = $conn->prepare("SELECT posts.id as postId, posts.userId, posts.description, posts.imagePath, posts.imageFilterId, posts.location, posts.locationName, posts.dateAdded, posts.dateDeleted, users.username, users.firstName, users.lastName, users.avatarPath, ( SELECT filters.class FROM filters WHERE filters.id = posts.imageFilterId ) as imageFilterClass FROM posts, users WHERE posts.id = :id OR posts.imagePath = :imagePath");
             $statement->bindValue(":id", $this->getId() );
             $statement->bindValue(":imagePath", $this->getImagePath() );
@@ -244,25 +191,26 @@
         }
 
 
-        /** Add post to database */
+        // ADD POST TO DATABASE
         public function add() {
             $conn = Db::getInstance();
 
-            // Add to database
             $statement = $conn->prepare("
-                INSERT INTO posts (post_user_id, description, file_location, filter, location) 
-                VALUES (:userId, :description, :imagepath, :filter, :location)
+                INSERT INTO posts (post_user_id, description, file_location, filter, location, date) 
+                VALUES (:userId, :description, :imagepath, :filter, :location, :date)
                 ");
             $statement->bindValue(":userId", $this->getUserId());
             $statement->bindValue(":description", $this->getDescription());
             $statement->bindValue(":imagepath", $this->getImagePath());
             $statement->bindValue(":filter", $this->getImageFilterId());
             $statement->bindValue(":location", $this->getLocation());
+            $statement->bindValue(":date", strftime( "%Y-%m-%d %H:%M:%S" ));
             $statement->execute();
 
             return $conn->lastInsertId();
         }
-
+		
+		// UPDATE POST IN DATABASE
         public function update() {
             $conn = Db::getInstance();
 
@@ -294,9 +242,9 @@
 
             return $result;
         }
-
-        public function deletePost()
-        {
+		
+		//DELETE POST FROM DATABASE
+        public function deletePost(){
             $conn = Db::getInstance();
 
             // Delete from database
@@ -314,8 +262,5 @@
 
             return $result;
         }
-
-
     }
-
 ?>

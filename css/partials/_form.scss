@@ -1,0 +1,21 @@
+form{
+	input{
+		width: calc(100% - 20px);
+		padding: 10px;
+		margin: 0 0 20px 0;
+		background: $blue;
+		border-radius: $radius;
+		border: none;
+		outline: none;
+		color: $white;
+    	&[type="submit"]{
+        	width: 100%;
+        	background: $yellow;
+			transition: $hover;
+			&:hover{
+				background: $lightyellow;
+				cursor: pointer;
+			}
+    	}
+ 	}
+}

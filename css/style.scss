@@ -3,6 +3,7 @@ $darkblue: #393B45;
 $blue: #6E7889;
 $lightblue: #D8D9DE;
 $yellow: #F3B54A;
+$lightyellow: #ffc563;
 $white: #fff;
 $hover: all 0.3s;
 $radius: 5px;
@@ -11,6 +12,7 @@ $radius: 5px;
 @import 'partials/reset';
 @import 'partials/login';
 @import 'partials/index';
+@import 'partials/form';
 @import "partials/cssgram.scss";
 
 body{

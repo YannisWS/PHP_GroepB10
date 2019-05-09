@@ -17,10 +17,12 @@
         $p->setLocation($location);
         $p->add();
     }
-
-    require_once("includes/header.inc.php");
 ?>
+<!doctype html>
+<html lang="en">
+	<?php require_once("includes/header.inc.php"); ?>
     <body>
+      	<?php require_once("includes/nav.inc.php"); ?>
         <main>
             <div class="form">
                 <form action="" method="post" enctype="multipart/form-data">

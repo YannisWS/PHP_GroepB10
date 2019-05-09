@@ -18,9 +18,10 @@
     catch(Exception $e) {
         //$error= $e->getMessage();
     }
-
-    require_once("includes/header.inc.php");
 ?>
+<!doctype html>
+<html lang="en">
+	<?php require_once("includes/header.inc.php"); ?>
     <body class="partials_login">
        <main>
             <form action="" method="post">

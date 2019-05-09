@@ -14,14 +14,11 @@
 
     require_once("includes/header.inc.php");
 ?>
+<!doctype html>
+<html lang="en">
+	<?php require_once("includes/header.inc.php"); ?>
     <body>
-        <nav>
-            <a href="#">logo</a>
-            <a href="profile.php">profile</a>
-            <a href="imgUpload.php">Upload</a>
-            <a href="logout.php">logout</a>
-            <a href="imgUpload.php">upload</a>
-        </nav>
+        <?php require_once("includes/nav.inc.php"); ?>
         <div class="container">
             <main>
                 <a href="upload.php"></a> <!-- CREATE NEW POST -->
