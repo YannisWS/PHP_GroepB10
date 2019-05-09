@@ -3,38 +3,36 @@
     Session::check();
 
     if(!empty($_POST)){
-
-        $description=$_POST["besch"];
+        
+//        $user_feed = $_SESSION['user'];
+        $description = @$_POST["description"];
+        $location = @$_POST["location"];
         $filter = $_POST["slctFilter"];
 
         $p = new Post();
         $p->moveImage();
+        $p->getId($_SESSION['user']);
         $p->setImageFilterId($filter);
         $p->setDescription($description);
-        $p->setLocation($lat,$lng);
+        $p->setLocation($location);
         $p->add();
-
     }
 
     require_once("includes/header.inc.php");
 ?>
-
     <body>
-        <div style="font-family: Oswald,sans-serif;" class="col-lg-4 mx-auto">
-            <div id="tit"><h4>Upload an image</h4></div>
+        <main>
             <div class="form">
                 <form action="" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file" accept="image/*" onchange="loadFile(event)" id="fileUpload" />
-                    <br>
-                    <textarea id="beschrijving" rows="5" cols="29" name="besch" id="comment"></textarea>
-                    <br />
-                    <input type="hidden" name="location" id="location" value="">
-                    <button id="knop" class="uploadimg" name="submit">Upload</button>
+                    <input type="file" name="file" accept="image/*" onchange="loadFile(event)" id="fileUpload"/>
+                    <input type="text" name="description" id="description" placeholder="description">
+                    <input type="text" name="location" id="location" placeholder="location">
+                    <input type="submit" id="knop" value="upload">
 
                     <?php
-                    if( isset($error) ) {
-                        echo "<p class='error'>$error</p>";
-                    }
+                        if( isset($error) ) {
+                            echo "<p class='error'>$error</p>";
+                        }
                     ?>
 
                     <div class="custom-select" style="width:200px;">
@@ -73,7 +71,7 @@
                 </form>
             </div>
             <img class="" id="output" />
-        </div>
+        </main>
         <script>
             var loadFile = function(event) {
                 var reader = new FileReader();
@@ -144,9 +142,6 @@
                 }else{
                     output.className='';
                 }
-
-
-
             }
         </script>
     </body>

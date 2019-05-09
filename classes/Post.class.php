@@ -31,10 +31,9 @@
          * @param mixed $description
          */
         public function setDescription($description) {
-            if( empty( $description ) ) {
+            if( empty( $description) ) {
                 throw new Exception( "Please fill in a description about your post." );
             }
-
             $this->description = $description;
         }
 
@@ -66,8 +65,8 @@
         /**
          * @param mixed $location
          */
-        public function setLocation($lat,$lng) {
-            $this->location = $lat . "," . $lng;
+        public function setLocation($location) {
+            $this->location = $location;
         }
 
         /**
@@ -176,12 +175,10 @@
             return $result;
         }
 
-        public function moveImage()
-        {
-    
+        public function moveImage(){
             $fileName=$_FILES["file"]["name"];
             $fileTmpName=$_FILES["file"]["tmp_name"];
-            $imagepath= "files/" . $_SESSION['userid']."-" . time().".jpg";
+            $imagepath= "img/post/" . $_SESSION['user']."-" . time().".jpg";
             $fileExt=explode(".",$fileName);
             $fileActualExt=strtolower(end($fileExt));
             $allowed=array('jpg','jpeg','png');
@@ -252,13 +249,15 @@
             $conn = Db::getInstance();
 
             // Add to database
-            $statement = $conn->prepare("INSERT INTO posts (userId, description, imagePath, imageFilterId, location, locationName) VALUES (:userId, :description, :imagePath, :imageFilterId, :location, :locationName)");
+            $statement = $conn->prepare("
+                INSERT INTO posts (post_user_id, description, file_location, filter, location) 
+                VALUES (:userId, :description, :imagepath, :filter, :location)
+                ");
             $statement->bindValue(":userId", $this->getUserId());
             $statement->bindValue(":description", $this->getDescription());
             $statement->bindValue(":imagepath", $this->getImagePath());
             $statement->bindValue(":filter", $this->getImageFilterId());
             $statement->bindValue(":location", $this->getLocation());
-            $statement->bindValue(":locationname", $this->getLocationName());
             $statement->execute();
 
             return $conn->lastInsertId();
