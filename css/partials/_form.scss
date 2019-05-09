@@ -12,6 +12,7 @@ form{
         	width: 100%;
         	background: $yellow;
 			transition: $hover;
+			transition-property: background;
 			&:hover{
 				background: $lightyellow;
 				cursor: pointer;

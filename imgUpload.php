@@ -3,18 +3,17 @@
     Session::check();
 
     if(!empty($_POST)){
-        
-//        $user_feed = $_SESSION['user'];
         $description = @$_POST["description"];
         $location = @$_POST["location"];
         $filter = $_POST["slctFilter"];
+		$userId = $_SESSION['user'];
 
         $p = new Post();
         $p->moveImage();
-        $p->getId($_SESSION['user']);
-        $p->setImageFilterId($filter);
+        $p->getUserId($userId);
         $p->setDescription($description);
         $p->setLocation($location);
+		$p->setImageFilterId($filter);
         $p->add();
     }
 ?>
@@ -24,22 +23,19 @@
     <body>
       	<?php require_once("includes/nav.inc.php"); ?>
         <main>
-            <div class="form">
-                <form action="" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file" accept="image/*" onchange="loadFile(event)" id="fileUpload"/>
-                    <input type="text" name="description" id="description" placeholder="description">
-                    <input type="text" name="location" id="location" placeholder="location">
-                    <input type="submit" id="knop" value="upload">
+			<form action="" method="post" enctype="multipart/form-data">
+				<input type="file" name="file" accept="image/*" onchange="loadFile(event)" id="fileUpload"/>
+				<input type="text" name="description" id="description" placeholder="description">
+				<input type="text" name="location" id="location" placeholder="location">
+				<input type="submit" id="knop" value="upload">
+				
+				<?php
+					if(isset($error)){echo "<p class='error'>$error</p>";}
+				?>
 
-                    <?php
-                        if( isset($error) ) {
-                            echo "<p class='error'>$error</p>";
-                        }
-                    ?>
-
-                    <div class="custom-select" style="width:200px;">
-                        <select id="slctFilter" name="slctFilter" onchange="filterGo(this.id)">
-                            <div id="content">
+				<div class="custom-select" style="width:200px;">
+					<select id="slctFilter" name="slctFilter" onchange="filterGo(this.id)">
+ 						<div id="content">
                             <option value="0">Select Filter:</option>
                             <option value="_1997">1977</option>
                             <option value="aden">Aden</option>
@@ -67,12 +63,11 @@
                             <option value="walden">Walden</option>
                             <option value="willow">Willow</option>
                             <option value="xpro2">Xpro2</option>
-                            </div>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <img class="" id="output" />
+						</div>
+					</select>
+				</div>
+			</form>
+            <img class="" id="output"/>
         </main>
         <script>
             var loadFile = function(event) {

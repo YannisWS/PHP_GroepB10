@@ -10,7 +10,7 @@
             if($user->login()){
                 $id = $user->getIdByEmail();
                 session_start();
-                $_SESSION['user'] = $id['id'];
+				$_SESSION['user'] = (int)$id['id'];
                 header('Location: index.php');
             } 
         }

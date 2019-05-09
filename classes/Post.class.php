@@ -82,15 +82,6 @@
             return $this->location;
         }
 
-        // LOCATION NAME ??????????????????????????????????????????????????????????
-        public function setLocationName($locationname) {
-            $this->locationname = $locationname;
-        }
-		
-		public function getLocationName() {
-            return $this->locationname;
-        }
-
         // DATE ADDED
         public function setDateAdded($dateadd) {
             $this->dateadd = $dateadd;
@@ -112,8 +103,8 @@
         // SELECT FROM DATABASE
         public function getPostData() {
             $conn = Db::getInstance();
-
-            $statement = $conn->prepare("SELECT posts.id as postId, posts.userId, posts.description, posts.imagePath, posts.imageFilterId, posts.location, posts.locationName, posts.dateAdded, posts.dateDeleted, users.username, users.firstName, users.lastName, users.avatarPath, ( SELECT filters.class FROM filters WHERE filters.id = posts.imageFilterId ) as imageFilterClass FROM posts, users WHERE posts.id = :id OR posts.imagePath = :imagePath");
+            $statement = $conn->prepare("
+				SELECT posts.id as postId, posts.userId, posts.description, posts.imagePath, posts.imageFilterId, posts.location, posts.locationName, posts.dateAdded, posts.dateDeleted, users.username, users.firstName, users.lastName, users.avatarPath, ( SELECT filters.class FROM filters WHERE filters.id = posts.imageFilterId ) as imageFilterClass FROM posts, users WHERE posts.id = :id OR posts.imagePath = :imagePath");
             $statement->bindValue(":id", $this->getId() );
             $statement->bindValue(":imagePath", $this->getImagePath() );
             $statement->execute();
@@ -121,7 +112,8 @@
 
             return $result;
         }
-
+		
+		// UPLOAD IMAGE
         public function moveImage(){
             $fileName=$_FILES["file"]["name"];
             $fileTmpName=$_FILES["file"]["tmp_name"];
@@ -131,75 +123,23 @@
             $allowed=array('jpg','jpeg','png');
             if(in_array($fileActualExt,$allowed)){
                 move_uploaded_file($fileTmpName, $imagepath);
-                $this->cropimage($imagepath,"400");
     
                 $this->imagepath=$imagepath;
-    
-    
             }
             else{
                 throw new exception("Oops you can't upload that file type");
-    
             }    
-    
         }
-
-        private function cropimage($file,$maxresolution){
-
-            if(file_exists($file)){
-                $originalimage=imagecreatefromjpeg($file);
-                $originalwidth=imagesx($originalimage);
-                $originalheight=imagesy($originalimage);
-    
-                //try max width
-                if($originalheight>$originalwidth) {
-                    $ratio = $maxresolution / $originalwidth;
-                    $newwidth = $maxresolution;
-                    $newheight = $originalheight * $ratio;
-    
-                    $verschil=$newheight-$newwidth;
-    
-                    $x=0;
-                    $y= round($verschil/2);
-                }
-    
-                else
-    
-                //als da ni werkt
-                {
-                    $ratio=$maxresolution/$originalheight;
-                    $newheight=$maxresolution;
-                    $newwidth=$originalwidth*$ratio;
-    
-                    $verschil=$newwidth-$newheight;
-    
-                    $x=round($verschil/2);
-                    $y= 0;
-                }
-    
-                if($originalimage){
-                    $newimage=imagecreatetruecolor($newwidth,$newheight);
-                    imagecopyresampled($newimage,$originalimage,0,0,0,0,$newwidth,$newheight,$originalwidth,$originalheight);
-    
-                    $newcropimage=imagecreatetruecolor($maxresolution,$maxresolution);
-                    imagecopyresampled($newcropimage,$newimage,0,0,$x,$y,$maxresolution,$maxresolution,$maxresolution,$maxresolution);
-    
-                    imagejpeg($newcropimage,$file,90);
-                }
-            }
-    
-        }
-
 
         // ADD POST TO DATABASE
         public function add() {
             $conn = Db::getInstance();
-
             $statement = $conn->prepare("
                 INSERT INTO posts (post_user_id, description, file_location, filter, location, date) 
                 VALUES (:userId, :description, :imagepath, :filter, :location, :date)
                 ");
             $statement->bindValue(":userId", $this->getUserId());
+			$statement->bindValue(":userId", $_SESSION['user']);
             $statement->bindValue(":description", $this->getDescription());
             $statement->bindValue(":imagepath", $this->getImagePath());
             $statement->bindValue(":filter", $this->getImageFilterId());
@@ -207,13 +147,22 @@
             $statement->bindValue(":date", strftime( "%Y-%m-%d %H:%M:%S" ));
             $statement->execute();
 
-            return $conn->lastInsertId();
+            return true;
+
+//			var_dump($_SESSION['user']);
+//			var_dump($this->getDescription());
+//            var_dump($this->getImagePath());
+//            var_dump($this->getImageFilterId());
+//            var_dump($this->getLocation());
+//            var_dump(strftime( "%Y-%m-%d %H:%M:%S" ));
+			
+//			$statement->bindValue(":userId", $this->getUserId()); 	NOT WORKING, WHY?
+//			$statement->bindValue(":userId", $_SESSION['user']);  	WORKING, WHY?
         }
 		
 		// UPDATE POST IN DATABASE
         public function update() {
             $conn = Db::getInstance();
-
             $statement = $conn->prepare("UPDATE posts SET description = :description WHERE id = :id");
             $statement->bindValue( ":id", $this->getId());
             $statement->bindValue( ":description", $this->getDescription());
@@ -234,7 +183,6 @@
         /** Get all posts info from database */
         public function getAllPosts() {
             $conn = Db::getInstance();
-
             // Select all posts from database
             $statement = $conn->prepare("SELECT posts.id as postId, posts.userId, posts.description, posts.imagePath, posts.imageFilterId, posts.location, posts.locationName, posts.dateAdded, users.username, users.firstName, users.lastName, users.avatarPath, ( SELECT filters.class FROM filters WHERE filters.id = posts.imageFilterId ) as imageFilterClass FROM posts, users WHERE posts.userId = users.id AND posts.dateDeleted = '0000-00-00 00:00:00' ORDER BY posts.dateAdded DESC");
             $statement->execute();

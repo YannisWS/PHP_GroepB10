@@ -101,7 +101,6 @@
                 return false;
             }
         }
-        // REGISTER
         
         // LOGIN
         public function login(){
@@ -125,7 +124,6 @@
             }
         
         }
-        // LOGIN
         
         // GET ID BY EMAIL
         public function getIdByEmail(){
@@ -137,6 +135,5 @@
 
             return $result;
         }
-        // GET ID BY EMAIL
     }
 ?>
