@@ -14,63 +14,24 @@
          
         header("Location: index.php");
 	 }
+
+    require_once("includes/header.inc.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>IMDFlix</title>
-    </head>
-    <body>
-        <div class="Login Login--register">
-            <div class="form form--login">
-                <form action="" method="post">
-                    <h2 form__title>Sign up for an account</h2>
-
-                    <div class="form__error hidden">
-                        <p>Some error here</p>
-                    </div>
-
-                    <div class="form__field">
-                        <label for="email">Email</label>
-                        <input type="text" id="email" name="email" required>
-                    </div>
-                    <div class="form__field">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-
-                    <div class="form__field">
-                        <label for="password_confirmation">Confirm your password</label>
-                        <input type="password" id="password_confirmation" name="password_confirmation" required>
-                    </div>
-                    
-                    <div class="form__field">
-                        <label for="firstname">First Name</label>
-                        <input type="text" id="firstname" name="firstname" required>
-                    </div>
-                    
-                    <div class="form__field">
-                        <label for="lastname">Last Name</label>
-                        <input type="text" id="lastname" name="lastname" required>
-                    </div>
-                    
-                    <div class="form__field">
-                        <label for="avatar">Avatar</label>
-                        <input type="text" id="avatar" name="avatar" required>
-                    </div>
-                    
-                    <div class="form__field">
-                        <label for="bio">Bio</label>
-                        <input type="text" id="bio" name="bio" required>
-                    </div>
-
-                    <div class="form__field">
-                        <input type="submit" value="Sign me up!" class="btn btn--primary">	
-                    </div>
-                </form>
-                <a href="login.php">Already have an account?</a>
-            </div>
-        </div>
+    <body class="partials_login">
+        <main>
+            <form action="" method="post">
+                <h1>Sign Up</h1>
+                <input type="text" id="email" name="email" placeholder="email" required>
+                <input type="password" id="password" name="password" placeholder="password" required>
+                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="confirm password" required>
+                <input type="text" id="firstname" name="firstname" placeholder="firstname" required>
+                <input type="text" id="lastname" name="lastname" placeholder="lastname" required>
+                <input type="text" id="avatar" name="avatar" placeholder="avatar" required>
+                <input type="text" id="bio" name="bio" placeholder="short description" required>
+                <input type="submit" value="Sign Up">
+            </form>
+            <a href="login.php">Already have an account? Log in</a>
+            <div class="error">Something went wrong :/ Please try again</div>
+        </main>
     </body>
 </html>

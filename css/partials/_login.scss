@@ -1,0 +1,32 @@
+.partials_login{
+    main{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        form{
+            width: 40%;
+            input{
+                width: calc(100% - 20px);
+                padding: 10px;
+                margin: 0 0 20px 0;
+                background: $blue;
+                border-radius: $radius;
+                border: none;
+                outline: none;
+                color: $white;
+                &[type="submit"]{
+                    width: 100%;
+                    background: $yellow;
+                }
+            }
+        }
+        a{
+            bottom: 0;
+            position: absolute;
+            margin: 20px 0;
+            color: $lightblue;
+        }
+    }
+}
