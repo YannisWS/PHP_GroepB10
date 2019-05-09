@@ -56,6 +56,7 @@
     <title>Profile</title>
 </head>
 <body>
+<?php include_once("nav.inc.php"); ?>
 
 
 <div  style="padding-top: 120px; id="box">
@@ -66,10 +67,10 @@
             <p class="userName"><?php echo $username; ?></p>
 
             <button id="<?php echo $show?>" class="<?php echo $btnClass; ?>"><?php echo $btnText; ?></button>
-            <a style="border: 1px solid grey; font-family: Oswald; font-size: small; color: grey;margin-left: 20px; padding: 5px; border-radius:20px; text-decoration: none;" id="<?php echo $unshow?>" href="Accountsettings.php">Edit</a>
+            <a style="border: 1px solid grey; font-family: Oswald; font-size: small; color: grey;margin-left: 20px; padding: 5px; border-radius:20px; text-decoration: none;" id="<?php echo $unshow?>" href="EditProfile.php">Edit</a>
         </div>
 
-        <p class="userDescription"><?php $b=new Post(); $b->beschHastag(htmlspecialchars($bioText)); ?></p>
+       
 
         <ul class="userStats">
             <li><span><?php echo $postcount; ?></span> posts</li>

@@ -20,11 +20,7 @@
         <title>Welcome to Imdflix</title>
     </head>
     <body>
-        <nav>
-            <a href="#">logo</a>
-            <a href="#">profile</a>
-            <a href="logout.php">logout</a>
-        </nav>
+    <?php include_once("nav.inc.php"); ?>
         <div class="container">
             <main>
                 <a href="upload.php"></a> <!-- CREATE NEW POST -->

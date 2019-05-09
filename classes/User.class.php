@@ -79,6 +79,18 @@
         public function getBio(){
             return $this->bio;
         }
+
+        public function setId($id)
+        {
+                $this->id = $id;
+    
+                return $this;
+        }
+        
+        public function getId()
+        {
+                return $this->id;
+        }
         
         // REGISTER
         public function register(){
@@ -138,5 +150,123 @@
             return $result;
         }
         // GET ID BY EMAIL
+
+        public function getDetails(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
+            $statement->bindValue(":id", $this->getId());
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_OBJ);
+            
+            return $result;
+    
+        }
+    
+        public function Followers(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("SELECT * FROM `followers` WHERE follower_id = :id AND status=1");
+            $statement->bindValue(":id", $this->getId());
+            $statement->execute();
+            
+            return $statement;
+        }
+    
+        public function GetFollowers(){
+            $statement = $this->Followers();
+            $result = $statement->fetch(PDO::FETCH_OBJ);
+            return $result;
+        }
+    
+        public function getFollowersAmount(){
+            $statement = $this->Followers();
+            $amount=$statement->rowCount();
+            return $amount;
+            
+        }
+    
+        public function loggedInUser(){
+            $id = $_SESSION["user"];
+            return $id;
+        }
+    
+        //wanneer op follow-btn wordt geklikt-> nieuwe rij in tabel followers
+        public function newFollow(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("INSERT INTO followers(user_id,follower_id,status) VALUES (:userId, :followerId, 1)");
+            $statement->bindValue(":followerId", $this->loggedInUser());
+            $statement->bindValue(":userId", $this->getId());
+            $statement->execute();
+            
+            return $statement;
+        }
+    
+        public function editFollow(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("UPDATE followers SET status = :status WHERE user_id=:userId AND follower_id=:followerId ");
+            $statement->bindValue(":followerId", $this->loggedInUser());
+            $statement->bindValue(":userId", $this->getId());
+            $statement->bindValue(":status",$this->getFollowStatus());
+            $statement->execute();
+            return $statement;
+        }
+        
+        
+    
+        //kijken of je de user al volgt, geeft aantal rijen terug. Als het geen rijen terug geeft -> volg je de user nog niet
+        public function checkFollower(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("SELECT * FROM followers WHERE user_id=:id AND follower_id= :id2 AND status=1");
+            $statement->bindValue(":id2", $this->loggedInUser());
+            $statement->bindValue(":id", $this->getId());
+            $statement->execute();
+            $amount=$statement->rowCount();;
+            return $amount;
+        }
+    
+        public function existFollow(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("SELECT * FROM followers WHERE user_id=:id AND follower_id= :id2");
+            $statement->bindValue(":id2", $this->loggedInUser());
+            $statement->bindValue(":id", $this->getId());
+            $statement->execute();
+            $amount=$statement->rowCount();
+            return $amount;
+        }
+        
+    
+    
+        public function editUser(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, avatar = :avatar, bio = :bio WHERE id = :id");
+            $statement->bindValue(":firstname", $this->getFirstName());
+            $statement->bindValue(":lastname", $this->getLastName());
+            $statement->bindValue(":avatar", $this->getAvatar());
+            $statement->bindValue(":bio", $this->getBio());
+            $statement->bindValue(":id", $this->loggedInUser());
+            $result = $statement->execute();
+            return $result;
+        }
+        
+        public function editSecurity(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("UPDATE users SET email = :email, password = :password WHERE id = :id");
+            $statement->bindValue(":email", $this->getEmail());
+            $statement->bindValue(":password", $this->getPassword());
+            $statement->bindValue(":id", $this->loggedInUser());
+            $result = $statement->execute();
+            return $result;
+        }
+    
+    /* find friends name to live tag them*/   
+        public function findUser(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("SELECT users.username FROM users, followers WHERE users.id= followers.user_id AND followers.follower_id=7 AND followers.user_id IN( SELECT users.id FROM users WHERE username LIKE :search)");
+            $statement->bindValue(":search", $this->getSearch());
+            
+            $statement->execute();
+            $result =$statement->fetchAll(PDO::FETCH_OBJ);
+            return $result;
+        }
+    
     }
 ?>
