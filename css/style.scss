@@ -4,6 +4,7 @@ $blue: #6E7889;
 $lightblue: #D8D9DE;
 $yellow: #F3B54A;
 $lightyellow: #ffc563;
+$red: #f44259;
 $white: #fff;
 $hover: all 0.3s;
 $radius: 5px;
@@ -11,17 +12,21 @@ $radius: 5px;
 // IMPORT
 @import 'partials/reset';
 @import 'partials/login';
+@import 'partials/nav';
 @import 'partials/index';
+@import 'partials/upload';
 @import 'partials/form';
-@import "partials/cssgram.scss";
+@import "partials/cssgram";
 
 body{
     background: $darkblue;
     font-family: sans-serif;
     color: $white;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
 }
-
-body{}
 
 h1{
     color: $yellow;
@@ -32,10 +37,12 @@ h1{
     padding: 10px;
 }
 
-body{}
-
 p{
     color: $white;
+}
+
+.yellow{
+    color: $yellow;
 }
 
 .error{

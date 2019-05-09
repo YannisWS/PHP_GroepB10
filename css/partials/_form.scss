@@ -1,5 +1,5 @@
 form{
-	input{
+	input, select{
 		width: calc(100% - 20px);
 		padding: 10px;
 		margin: 0 0 20px 0;
@@ -11,6 +11,8 @@ form{
     	&[type="submit"]{
         	width: 100%;
         	background: $yellow;
+			font-weight: 600;
+			text-transform: uppercase;
 			transition: $hover;
 			transition-property: background;
 			&:hover{

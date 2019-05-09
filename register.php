@@ -33,7 +33,7 @@
                 <input type="text" id="bio" name="bio" placeholder="short description" required>
                 <input type="submit" value="Sign Up">
             </form>
-            <a href="login.php">Already have an account? Log in</a>
+            <a href="login.php">Already have an account? <span class="yellow">Log in</span></a>
             <div class="error">Something went wrong :/ Please try again</div>
         </main>
     </body>

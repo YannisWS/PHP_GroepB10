@@ -34,7 +34,7 @@
         // DESCRIPTION
         public function setDescription($description) {
             if( empty( $description) ) {
-                throw new Exception( "Please fill in a description about your post." );
+                return false;
             }
             $this->description = $description;
         }
@@ -46,7 +46,7 @@
         // IMAGE PATH
         public function setImagePath($imagepath) {
             if( empty( $imagepath ) ) {
-                throw new Exception( "Please choose a photo to upload." );
+                return false;
             }
             $this->imagePath = $imagepath;
         }
@@ -127,7 +127,7 @@
                 $this->imagepath=$imagepath;
             }
             else{
-                throw new exception("Oops you can't upload that file type");
+                return false;
             }    
         }
 

@@ -30,7 +30,7 @@
                 <input type="password" id="password" name="password" placeholder="password" required>
                 <input type="submit" value="Login" class="button">
             </form>
-            <a href="register.php">Not registered yet? Create an account</a>
+		   <a href="register.php">Not registered yet? <span class="yellow">Create an account</span></a>
             <div class="error">Something went wrong :/ Please try again</div>
         </main>
     </body>

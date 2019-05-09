@@ -2,6 +2,10 @@
     require_once("bootstrap.php");
     Session::check();
 
+	if(empty($_SESSION['user'])){
+		header('Location: login.php');
+	}
+
     if(!empty($_POST)){
         $description = @$_POST["description"];
         $location = @$_POST["location"];
@@ -15,23 +19,22 @@
         $p->setLocation($location);
 		$p->setImageFilterId($filter);
         $p->add();
+		
+//		header("Location: index.php");
     }
 ?>
 <!doctype html>
 <html lang="en">
 	<?php require_once("includes/header.inc.php"); ?>
-    <body>
+    <body class="partials_upload">
       	<?php require_once("includes/nav.inc.php"); ?>
         <main>
 			<form action="" method="post" enctype="multipart/form-data">
 				<input type="file" name="file" accept="image/*" onchange="loadFile(event)" id="fileUpload"/>
 				<input type="text" name="description" id="description" placeholder="description">
 				<input type="text" name="location" id="location" placeholder="location">
-				<input type="submit" id="knop" value="upload">
 				
-				<?php
-					if(isset($error)){echo "<p class='error'>$error</p>";}
-				?>
+				<?php if(isset($error)){echo "<p class='error'>$error</p>";} ?>
 
 				<div class="custom-select" style="width:200px;">
 					<select id="slctFilter" name="slctFilter" onchange="filterGo(this.id)">
@@ -66,9 +69,14 @@
 						</div>
 					</select>
 				</div>
+				
+				<input type="submit" id="knop" value="upload">
 			</form>
-            <img class="" id="output"/>
+            
         </main>
+        <figure>
+        	<img class="" id="output"/>
+        </figure>
         <script>
             var loadFile = function(event) {
                 var reader = new FileReader();

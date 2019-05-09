@@ -1,0 +1,32 @@
+nav{
+	width: 100%;
+	top: 0;
+	background: $white;
+	overflow: hidden;
+	ul{
+		width: 80%;
+		margin: 0 10%;
+		li{
+			background: $white;
+			float: left;
+			padding: 10px;
+			&:nth-child(3) a{
+				background: $yellow;
+				color: $white;
+			}
+			&:last-child{
+				float: right;
+				a{
+					color: $red;
+				}
+			}
+			a{
+				color: $darkblue;
+				font-weight: 700;
+				padding: 10px;
+				border-radius: $radius;
+				display: inline-block;
+			}
+		}
+	}
+}
