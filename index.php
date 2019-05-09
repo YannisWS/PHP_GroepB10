@@ -9,20 +9,16 @@
 		$user_feed = $_SESSION['user'];
 		$feed = new Feed();
 		$feed->setFeed($user_feed);
+        $feed->createFeed();
 	}
+
+    require_once("includes/header.inc.php");
 ?>
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Welcome to Imdflix</title>
-    </head>
     <body>
         <nav>
             <a href="#">logo</a>
-            <a href="#">profile</a>
+            <a href="profile.php">profile</a>
+            <a href="imgUpload.php">Upload</a>
             <a href="logout.php">logout</a>
             <a href="imgUpload.php">upload</a>
         </nav>
@@ -31,7 +27,7 @@
                 <a href="upload.php"></a> <!-- CREATE NEW POST -->
                 <section class="grid">
                     <div class="grid-item"></div>
-                    <?php foreach($getFeed as $p): ?>                        
+                    <?php foreach($createFeed as $f): ?>                        
                         <a href="post.php?p=<?php echo $f['posts.id']; ?>" class="grid-item"> <!-- VISIT POST -->
                           <img src="img/post/<?php echo $f['posts.file_location']; ?>" alt="post">
                         </a>

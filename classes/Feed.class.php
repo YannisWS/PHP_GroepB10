@@ -1,32 +1,46 @@
 <?php
     class Feed{
+        private $feed;
+        private $f;
+        private $friends;
 
-        public function SetFeed($feed){
+        public function getFeed(){
+            return $this->email;
+        }
+        
+        public function setFeed($feed){
             $this->feed = $feed;
             return $this;
         }
+        
+        public function GetFriends(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("
+                SELECT friend_id
+                FROM friendlist
+                WHERE friendlist.user_id = :user
+                ");
+            $statement->bindValue(":user", $this->feed);
+            $statement->execute();
+//			$friends = $statement->fetch(PDO::FETCH_ASSOC);;
+			$friends = $statement->fetchAll();
+            return $friends;
+        }
 
-        public function getFeed(){
+        public function createFeed(){
             $conn = Db::getInstance();
             $statement = $conn->prepare("
                 SELECT *
-                FROM users, friendlist, posts
-                
-                INNER JOIN friendlist
-				ON posts.posts_user_id = users.id
-				
-				INNER JOIN posts
-                ON friendlist.user_id = users.id
-                
-                WHERE :user = friendlist.user_id
-				ORDER BY date DESC
+                FROM posts
+                WHERE posts.post_user_id = :friends
+                ORDER BY date DESC
                 LIMIT 20
                 ");
-            $statement->bindValue(":user", $this->getFeed());
+            $statement->bindValue(":friends", $this->GetFriends()); //LOOP ???
             $statement->execute();
-			$feed = $statement->fetch(PDO::FETCH_ASSOC);
+			$f = $statement->fetch(PDO::FETCH_ASSOC);
 			//$feed = $statement->fetchAll();
-            return $feed;
+            return $f;
         }
     }
 
@@ -37,8 +51,8 @@
 - 'file_location' + 'id' van posts terugsturen naar index.php
 */
 
-
-//SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
-//FROM Orders
-//INNER JOIN Customers 
-//ON Orders.CustomerID=Customers.CustomerID;
+//SELECT *
+//FROM users, friendlist, posts
+//WHERE posts.post_user_id = users.id && friendlist.user_id = users.id && friendlist.user_id = :user
+//ORDER BY date DESC
+//LIMIT 20

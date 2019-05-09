@@ -1,6 +1,5 @@
 <?php
     require_once("bootstrap.php");
-
     Session::check();
 ?>
 <!doctype html>
