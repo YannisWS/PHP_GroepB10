@@ -24,6 +24,7 @@
             <a href="#">logo</a>
             <a href="#">profile</a>
             <a href="logout.php">logout</a>
+            <a href="imgUpload.php">upload</a>
         </nav>
         <div class="container">
             <main>
