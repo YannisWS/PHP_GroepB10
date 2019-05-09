@@ -17,7 +17,8 @@
     <body>
         <nav>
             <a href="#">logo</a>
-            <a href="#">profile</a>
+            <a href="profile.php">profile</a>
+            <a href="imgUpload.php">Upload</a>
             <a href="logout.php">logout</a>
         </nav>
         <div class="container">
