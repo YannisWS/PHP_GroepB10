@@ -57,49 +57,50 @@
 
 
 <div  style="padding-top: 120px;" id="box">
-<div class="profileInfo">
-    <img class="profilePhoto" src="<?php echo $avatar?>" alt="profile photo">
-    <div class="profileDetails">
-        <div class="editProfile">
-            <p class="userName"><?php echo $username; ?></p>
+	<div class="profileInfo">
+		<img class="profilePhoto" src="<?php echo $avatar?>" alt="profile photo">
+		<div class="profileDetails">
+			<div class="editProfile">
+				<p class="userName"><?php echo $username; ?></p>
 
-            <button id="<?php echo $show?>" class="<?php echo $btnClass; ?>"><?php echo $btnText; ?></button>
-            <a style="border: 1px solid grey; font-family: Oswald; font-size: small; color: grey;margin-left: 20px; padding: 5px; border-radius:20px; text-decoration: none;" id="<?php echo $unshow?>" href="EditProfile.php">Edit</a>
-        </div>
+				<button id="<?php echo $show?>" class="<?php echo $btnClass; ?>"><?php echo $btnText; ?></button>
+				<a style="border: 1px solid grey; font-family: Oswald; font-size: small; color: grey;margin-left: 20px; padding: 5px; border-radius:20px; text-decoration: none;" id="<?php echo $unshow?>" href="EditProfile.php">Edit</a>
+			</div>
 
-       
 
-        <ul class="userStats">
-            <li><span><?php echo $postcount; ?></span> posts</li>
-            <li><span><?php echo $follow?></span> followers</li>
-            <li><span><?php echo $followers?></span> following</li>
-        </ul>
 
-    </div>
+			<ul class="userStats">
+				<li><span><?php echo $postcount; ?></span> posts</li>
+				<li><span><?php echo $follow?></span> followers</li>
+				<li><span><?php echo $followers?></span> following</li>
+			</ul>
 
+		</div>
+
+	</div>
+
+	<main class="feedContainer">
+
+		<div class="profileFeed">
+
+			<?php foreach($res as $post): ?>
+				<a href="postDetail.php?imageID=<?php echo $post['id']; ?>">
+					<div class="feedBox">
+
+							<img class="<?php echo $post['filter']?>" src="<?php echo $post['filelocation']; ?>" alt="">
+
+						<div class="overlay">
+							<div class="likes">
+							</div>
+						</div>
+					</div>
+				</a>
+			<?php endforeach; ?>
+		</div>
+
+		<a href="imageupload.php" id="floatingBtn">+</a>
+	</main>
 </div>
-
-<main class="feedContainer">
-
-    <div class="profileFeed">
-
-        <?php foreach($res as $post): ?>
-            <a href="postDetail.php?imageID=<?php echo $post['id']; ?>">
-                <div class="feedBox">
-
-                        <img class="<?php echo $post['filter']?>" src="<?php echo $post['filelocation']; ?>" alt="">
-
-                    <div class="overlay">
-                        <div class="likes">
-                        </div>
-                    </div>
-                </div>
-            </a>
-        <?php endforeach; ?>
-    </div>
-</div>
-    <a href="imageupload.php" id="floatingBtn">+</a>
-</main>
 <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
