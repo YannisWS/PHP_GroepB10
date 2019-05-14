@@ -1,6 +1,16 @@
 <?php
     require_once("bootstrap.php");
     Session::check();
+
+	if(empty($_SESSION['user'])){
+		header('Location: login.php');
+	}else{
+		$id = $_GET['id'];
+		//echo $post_id;
+		$post = new Post();
+		$post->setId($id);
+        $post->getPostData();
+	}
 ?>
 <!doctype html>
 <html lang="en">
@@ -9,7 +19,12 @@
 		<?php require_once("includes/nav.inc.php"); ?>
        	<div class="container">
 			<main>
-
+				<?php foreach($post as $p): ?>  
+				<section>
+					<img src="<?php echo $p['file_location']; ?>" alt="Image">
+					<p><?php echo $p['description']; ?></p>
+				</section>
+       			<?php endforeach; ?>
         	</main>
        </div>
     </body>

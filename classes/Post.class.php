@@ -19,7 +19,7 @@
         }
 		
 		public function getId() {
-            return $this->id;
+            return (int)$this->id;
         }
 		
 		// USER ID
@@ -104,27 +104,32 @@
         public function getPostData() {
             $conn = Db::getInstance();
             $statement = $conn->prepare("
-				SELECT posts.id as postId, posts.userId, posts.description, posts.imagePath, posts.imageFilterId, posts.location, posts.locationName, posts.dateAdded, posts.dateDeleted, users.username, users.firstName, users.lastName, users.avatarPath, ( SELECT filters.class FROM filters WHERE filters.id = posts.imageFilterId ) as imageFilterClass FROM posts, users WHERE posts.id = :id OR posts.imagePath = :imagePath");
-            $statement->bindValue(":id", $this->getId() );
-            $statement->bindValue(":imagePath", $this->getImagePath() );
+				SELECT *
+				FROM posts
+				WHERE posts.post_user_id = :id
+				");
+            $statement->bindValue(":id", $this->getId());
             $statement->execute();
-            $result = $statement->fetch(PDO::FETCH_OBJ);
-
+            $result = $statement->fetchAll();
+//            $result = $statement->fetch(PDO::FETCH_OBJ);
+			
             return $result;
+//			INNER JOIN posts
+//            ON friendlist.user_id = users.id
         }
 		
 		// UPLOAD IMAGE
-        public function moveImage(){
-            $fileName=$_FILES["file"]["name"];
-            $fileTmpName=$_FILES["file"]["tmp_name"];
-            $imagepath= "img/post/" . $_SESSION['user']."-" . time().".jpg";
-            $fileExt=explode(".",$fileName);
-            $fileActualExt=strtolower(end($fileExt));
-            $allowed=array('jpg','jpeg','png');
+        public function moveImage() {
+            $fileName = $_FILES["file"]["name"];
+            $fileTmpName = $_FILES["file"]["tmp_name"];
+            $imagepath = "img/post/" . $_SESSION['user']."-" . time().".jpg";
+            $fileExt = explode(".",$fileName);
+            $fileActualExt = strtolower(end($fileExt));
+            $allowed = array('jpg','jpeg','png');
             if(in_array($fileActualExt,$allowed)){
                 move_uploaded_file($fileTmpName, $imagepath);
     
-                $this->imagepath=$imagepath;
+                $this->imagepath = $imagepath;
             }
             else{
                 return false;
@@ -170,43 +175,12 @@
         }
 
         /** Get all posts info from database */
-        public function getAllPostData($offset = 0) {
-            $conn = Db::getInstance();
-
-            if( empty( $offset ) || $offset < 0 ) {
-                $offset = 0;
-            }
-
-        }
-
-
-        /** Get all posts info from database */
         public function getAllPosts() {
             $conn = Db::getInstance();
             // Select all posts from database
             $statement = $conn->prepare("SELECT posts.id as postId, posts.userId, posts.description, posts.imagePath, posts.imageFilterId, posts.location, posts.locationName, posts.dateAdded, users.username, users.firstName, users.lastName, users.avatarPath, ( SELECT filters.class FROM filters WHERE filters.id = posts.imageFilterId ) as imageFilterClass FROM posts, users WHERE posts.userId = users.id AND posts.dateDeleted = '0000-00-00 00:00:00' ORDER BY posts.dateAdded DESC");
             $statement->execute();
             $result = $statement->fetchAll(PDO::FETCH_OBJ);
-
-            return $result;
-        }
-		
-		//DELETE POST FROM DATABASE
-        public function deletePost(){
-            $conn = Db::getInstance();
-
-            // Delete from database
-            $statement = $conn->prepare("UPDATE posts SET dateDeleted = :dateDeleted WHERE id = :id");
-            $statement->bindValue(":dateDeleted", strftime( "%Y-%m-%d %H:%M:%S" ));
-            $statement->bindValue(":id", $this->getId());
-            $result = $statement->execute();
-
-            //$statement = $conn->prepare("SELECT imagePath FROM posts WHERE id = :id");
-            //$statement->bindValue(":id", $this->getId());
-            //$result = $statement->fetchAll(PDO::FETCH_OBJ);
-
-            //$postImage = new PostImage();
-            //$postImage->delete($result);
 
             return $result;
         }

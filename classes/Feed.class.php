@@ -20,10 +20,12 @@
                 FROM friendlist
                 WHERE friendlist.user_id = :user
                 ");
-            $statement->bindValue(":user", $this->feed);
+//            $statement->bindValue(":user", $this->feed);
+			$statement->bindValue(":user", $_SESSION['user']);
             $statement->execute();
 //			$friends = $statement->fetch(PDO::FETCH_ASSOC);;
 			$friends = $statement->fetchAll();
+			
             return $friends;
         }
 
