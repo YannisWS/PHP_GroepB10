@@ -1,11 +1,57 @@
 // VARIABLES
-$darkblue: #262666;
-$blue: #3F3F8E;
-$lightblue: #95FCFC;
+$darkblue: #393B45;
+$blue: #6E7889;
+$lightblue: #D8D9DE;
+$yellow: #F3B54A;
+$lightyellow: #ffc563;
+$red: #f44259;
 $white: #fff;
-$grey: #eeeeee;
 $hover: all 0.3s;
+$radius: 5px;
 
 // IMPORT
 @import 'partials/reset';
+@import 'partials/login';
+@import 'partials/nav';
 @import 'partials/index';
+@import 'partials/upload';
+@import 'partials/form';
+@import "partials/cssgram";
+
+body{
+    background: $darkblue;
+    font-family: sans-serif;
+    color: $white;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
+h1{
+    color: $yellow;
+    font-size: 30px;
+    padding: 0 0 40px 0;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 10px;
+}
+
+p{
+    color: $white;
+}
+
+.yellow{
+    color: $yellow;
+}
+
+.error{
+    display: none;
+}
+
+::-webkit-input-placeholder {color:$white;}
+:-moz-placeholder {color:$white;opacity:1;}
+::-moz-placeholder {color:$white;opacity:1;}
+:-ms-input-placeholder {color:$white;}
+::-ms-input-placeholder {color:$white;}
+::placeholder {color:$white;}

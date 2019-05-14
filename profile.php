@@ -48,18 +48,15 @@
 }
 
 
-?><!doctype html>
+?>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/cssgram.min.css">
-    <title>Profile</title>
-</head>
+	<?php require_once("includes/header.inc.php"); ?>
 <body>
 <?php include_once("nav.inc.php"); ?>
 
 
-<div  style="padding-top: 120px; id="box">
+<div  style="padding-top: 120px;" id="box">
 <div class="profileInfo">
     <img class="profilePhoto" src="<?php echo $avatar?>" alt="profile photo">
     <div class="profileDetails">

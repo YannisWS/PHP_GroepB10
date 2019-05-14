@@ -1,13 +1,12 @@
 <?php
     Abstract class Session{
-
         private static function start(){
             return session_start();
         }
 
         public static function check(){
             self::start();
-            if(!empty($_SESSION["id"])){
+            if(!empty($_SESSION["user"])){
                 return true;
             }
             else{

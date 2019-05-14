@@ -113,7 +113,6 @@
                 return false;
             }
         }
-        // REGISTER
         
         // LOGIN
         public function login(){
@@ -137,7 +136,6 @@
             }
         
         }
-        // LOGIN
         
         // GET ID BY EMAIL
         public function getIdByEmail(){
@@ -149,9 +147,11 @@
 
             return $result;
         }
-        // GET ID BY EMAIL
 
-        public function getDetails(){
+		
+		// Merge TestAmelie - Master
+        
+		public function getDetails(){
             $conn = Db::getInstance();
             $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
             $statement->bindValue(":id", $this->getId());
@@ -257,7 +257,7 @@
             return $result;
         }
     
-    /* find friends name to live tag them*/   
+    	/* find friends name to live tag them*/   
         public function findUser(){
             $conn = Db::getInstance();
             $statement = $conn->prepare("SELECT users.username FROM users, followers WHERE users.id= followers.user_id AND followers.follower_id=7 AND followers.user_id IN( SELECT users.id FROM users WHERE username LIKE :search)");
@@ -267,6 +267,5 @@
             $result =$statement->fetchAll(PDO::FETCH_OBJ);
             return $result;
         }
-    
     }
 ?>

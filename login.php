@@ -10,40 +10,28 @@
             if($user->login()){
                 $id = $user->getIdByEmail();
                 session_start();
-                $_SESSION['user'] = $id['id'];
+				$_SESSION['user'] = (int)$id['id'];
                 header('Location: index.php');
             } 
         }
     }
     catch(Exception $e) {
         //$error= $e->getMessage();
-    } 
-
+    }
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>InstaVibes</title>
-    </head>
-    <body>
+	<?php require_once("includes/header.inc.php"); ?>
+    <body class="partials_login">
        <main>
-            <h1>Login</h1>
-        
             <form action="" method="post">
-                <div class="form__field">
-                    <label for="email">email</label>
-                    <input type="text" id="email" name="email" placeholder="email" required>
-                </div>
-                <div class="form__field">
-                    <label for="password">password</label>
-                    <input type="password" id="password" name="password" placeholder="password" required>
-                </div>
-                <div class="form__field">
-                    <input type="submit" value="Login" class="button">
-                </div>
+                <h1>Login</h1>
+                <input type="text" id="email" name="email" placeholder="email" required>
+                <input type="password" id="password" name="password" placeholder="password" required>
+                <input type="submit" value="Login" class="button">
             </form>
-            <a href="register.php">Not registered yet?</a>
+		   <a href="register.php">Not registered yet? <span class="yellow">Create an account</span></a>
+            <div class="error">Something went wrong :/ Please try again</div>
         </main>
     </body>
 </html>
