@@ -1,10 +1,7 @@
 <?php
     require_once("bootstrap.php");
     Session::check();
-
-	if(empty($_SESSION['user'])){
-		header('Location: login.php');
-	}
+	require_once("includes/checklogin.inc.php");
 
     if(!empty($_POST)){
         $description = @$_POST["description"];

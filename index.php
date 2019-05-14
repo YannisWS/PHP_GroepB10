@@ -1,18 +1,15 @@
 <?php
     require_once("bootstrap.php");
     Session::check();
-		
-	if(empty($_SESSION['user'])){
-		header('Location: login.php');
-	}
-	else{
+	
+	if(!isset($_SESSION["user"])){
+		header("Location: login.php");
+	}else{
 		$user_feed = $_SESSION['user'];
 		$feed = new Feed();
 		$feed->setFeed($user_feed);
         $feed->createFeed();
 	}
-
-    require_once("includes/header.inc.php");
 ?>
 <!doctype html>
 <html lang="en">
