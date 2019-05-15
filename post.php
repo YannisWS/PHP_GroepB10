@@ -1,32 +1,48 @@
 <?php
     require_once("bootstrap.php");
     Session::check();
+	require_once("includes/checklogin.inc.php");
 
-	if(empty($_SESSION['user'])){
-		header('Location: login.php');
-	}else{
+	$post = new Post;
+	if(isset($_GET['id'])){
 		$id = $_GET['id'];
-		//echo $post_id;
-		$post = new Post();
 		$post->setId($id);
-        $post->getPostData();
+//        $post->getPostData();
 	}
 ?>
 <!doctype html>
 <html lang="en">
 	<?php require_once("includes/header.inc.php"); ?>
-    <body>
+    <body class="partials_post">
 		<?php require_once("includes/nav.inc.php"); ?>
        	<div class="container">
 			<main>
-				<?php foreach($post as $p): ?>  
+				<?php foreach($post->getPostData() as $p): ?>  
 				<section>
-					<img src="<?php echo $p['file_location']; ?>" alt="Image">
+					<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
 					<p><?php echo $p['description']; ?></p>
+					<p>Posted <?php 
+						$date = $p['date']; 
+						$timestamp = strtotime($date); 
+						echo date("j F Y", $timestamp); ?> 
+						at <?php echo $p['location']; ?></p>
+					<p>filter: <?php if(empty($p['filter'])){echo "none";}else{echo $p['filter'];}; ?></p>
 				</section>
        			<?php endforeach; ?>
         	</main>
-       </div>
+        	<aside>
+        		<article> <!-- COMMENT SECTION -->
+        			<p class="yellow">You: test comment</p>
+        			<p>Pol: comment test</p>
+        			<p class="yellow">You: test comment</p>
+        			<p>Pol: comment test</p>
+        		</article>
+        		<form action="" method="post"> <!-- ADD COMMENT -->
+        			<input type="text" id="NewComment" placeholder="add a comment">
+        			<input type="submit" value="send">
+        		</form>
+        	</aside>
+        </div>
     </body>
     <script 
         src="https://code.jquery.com/jquery-3.4.1.min.js"

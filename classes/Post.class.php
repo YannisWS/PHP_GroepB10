@@ -19,6 +19,7 @@
         }
 		
 		public function getId() {
+//            return $this->id;
             return (int)$this->id;
         }
 		
@@ -106,7 +107,7 @@
             $statement = $conn->prepare("
 				SELECT *
 				FROM posts
-				WHERE posts.post_user_id = :id
+				WHERE id = :id
 				");
             $statement->bindValue(":id", $this->getId());
             $statement->execute();
