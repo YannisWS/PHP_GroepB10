@@ -3,11 +3,12 @@
     margin: 0 auto;
     main{
         width: 100%;
+        
         .grid-item {
           float: left;
-          width: 25%;
+          max-width: 200px;
             img{
-                width: 100%;
+               max-width: 200px;
             }
         }
     }
