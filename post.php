@@ -8,6 +8,8 @@
 		$id = $_GET['id'];
 		$post->setId($id);
 //        $post->getPostData();
+
+
 	}
 ?>
 <!doctype html>
