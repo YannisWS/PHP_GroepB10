@@ -22,7 +22,7 @@
                 <section class="grid">
                 <?php foreach($feed->getFeedData() as $p): ?>
                    <a href="post.php?id=<?php echo $p['id']; ?>"><div class="grid-item">
-                   <img src="img/post/<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
+                   <img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
                     <p><?php echo $p['description']; ?></p>
                    </div></a>
                 <?php endforeach; ?>
