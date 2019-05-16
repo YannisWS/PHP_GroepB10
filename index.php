@@ -5,11 +5,10 @@
 	if(!isset($_SESSION["user"])){
 		header("Location: login.php");
 	}else{
-		$user_feed = $_SESSION['user'];
-		$feed = new Feed();
-		$feed->setFeed($user_feed);
-        $feed->createFeed();
-	}
+        $feed = new Feed;
+        
+    }
+    
 ?>
 <!doctype html>
 <html lang="en">
@@ -18,14 +17,15 @@
         <?php require_once("includes/nav.inc.php"); ?>
         <div class="container">
             <main>
+            
                 <a href="upload.php"></a> <!-- CREATE NEW POST -->
                 <section class="grid">
-                    <div class="grid-item"></div>
-                    <?php foreach($createFeed as $f): ?>                        
-                        <a href="post.php?p=<?php echo $f['posts.id']; ?>" class="grid-item"> <!-- VISIT POST -->
-                          <img src="img/post/<?php echo $f['posts.file_location']; ?>" alt="post">
-                        </a>
-                    <?php endforeach; ?>
+                <?php foreach($feed->getFeedData() as $p): ?>
+                   <a href="post.php?id=<?php echo $p['id']; ?>"><div class="grid-item">
+                   <img src="img/post/<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
+                    <p><?php echo $p['description']; ?></p>
+                   </div></a>
+                <?php endforeach; ?>
                   </section>
               </main>
         </div>

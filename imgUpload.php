@@ -4,18 +4,24 @@
 	require_once("includes/checklogin.inc.php");
 
     if(!empty($_POST)){
-        $description = @$_POST["description"];
-        $location = @$_POST["location"];
-        $filter = $_POST["slctFilter"];
-		$userId = $_SESSION['user'];
+        try{
+            $description = @$_POST["description"];
+            $location = @$_POST["location"];
+            $filter = $_POST["slctFilter"];
+            $userId = $_SESSION['user'];
 
-        $p = new Post();
-        $p->moveImage();
-        $p->getUserId($userId);
-        $p->setDescription($description);
-        $p->setLocation($location);
-		$p->setImageFilterId($filter);
-        $p->add();
+            $p = new Post();
+            $p->moveImage();
+            $p->getUserId($userId);
+            $p->setDescription($description);
+            $p->setLocation($location);
+            $p->setImageFilterId($filter);
+            $p->add();
+        }catch(Exception $e) {
+            //Catch Statement
+        }finally{
+            header("Location: index.php");
+        }
 		
 //		header("Location: index.php");
     }

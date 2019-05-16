@@ -8,6 +8,8 @@
 		$id = $_GET['id'];
 		$post->setId($id);
 //        $post->getPostData();
+
+
 	}
 ?>
 <!doctype html>
@@ -20,22 +22,28 @@
 				<?php foreach($post->getPostData() as $p): ?>  
 				<section>
 					<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
-					<p><?php echo $p['description']; ?></p>
-					<p>Posted <?php 
+					<p><?php echo $p['email']; ?> :</p>
+					<p>"<?php echo $p['description']; ?>"</p>
+					<p class="small">Posted <?php 
 						$date = $p['date']; 
 						$timestamp = strtotime($date); 
 						echo date("j F Y", $timestamp); ?> 
 						at <?php echo $p['location']; ?></p>
-					<p>filter: <?php if(empty($p['filter'])){echo "none";}else{echo $p['filter'];}; ?></p>
+					<p class="small">filter: <?php if(empty($p['filter'])){echo "none";}else{echo $p['filter'];}; ?></p>
 				</section>
        			<?php endforeach; ?>
         	</main>
         	<aside>
         		<article> <!-- COMMENT SECTION -->
-        			<p class="yellow">You: test comment</p>
-        			<p>Pol: comment test</p>
-        			<p class="yellow">You: test comment</p>
-        			<p>Pol: comment test</p>
+        		    <?php foreach($post->getComments() as $c): ?>
+        		        <p>
+        		        	<span<?php if($c['comment_user_id'] == $_SESSION['user']){echo " class=\"yellow\"";}?>>
+							<?php echo $c['firstname'] . " " . $c['lastname']; ?>
+     		        		</span>
+      		        		
+       		        		<?php echo ": " . $c['comment_text']; ?>
+        		        </p>
+        		    <?php endforeach; ?>
         		</article>
         		<form action="" method="post"> <!-- ADD COMMENT -->
         			<input type="text" id="NewComment" placeholder="add a comment">
