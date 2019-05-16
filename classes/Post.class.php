@@ -10,7 +10,7 @@
         private $filter;
         private $location;
         private $locationname;
-        private $dateadd;
+        private $dateAdd;
         private $dateremove;
 
        // ID
@@ -84,39 +84,46 @@
         }
 
         // DATE ADDED
-        public function setDateAdded($dateadd) {
-            $this->dateadd = $dateadd;
+        public function setDate($dateAdd) {
+            $this->dateAdd = $dateAdd;
         }
 		
-		public function getDateAdded() {
-            return $this->dateadd;
+		public function getDate() {
+            return $this->$dateAdd;
         }
 
-        // DATE DELETED
-        public function setDateDeleted($dateremove) {
-            $this->dateremove = $dateremove;
-        }
-		
-		public function getDateDeleted() {
-            return $this->dateremove;
-        }
-
-        // SELECT FROM DATABASE
+        // SELECT POST FROM DATABASE
         public function getPostData() {
             $conn = Db::getInstance();
             $statement = $conn->prepare("
 				SELECT *
-				FROM posts
-				WHERE id = :id
+                FROM posts
+                INNER JOIN users
+                ON posts.post_user_id = users.id
+                WHERE posts.id = :id
 				");
             $statement->bindValue(":id", $this->getId());
             $statement->execute();
             $result = $statement->fetchAll();
-//            $result = $statement->fetch(PDO::FETCH_OBJ);
 			
             return $result;
-//			INNER JOIN posts
-//            ON friendlist.user_id = users.id
+        }
+        
+        // SELECT COMMENTS FROM DATABASE
+        public function getComments() {
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("
+				SELECT *
+                FROM comments
+                INNER JOIN users
+                ON comments.comment_user_id = users.id
+                WHERE comments.comment_post_id = :id
+				");
+            $statement->bindValue(":id", $this->getId());
+            $statement->execute();
+            $result = $statement->fetchAll();
+			
+            return $result;
         }
 		
 		// UPLOAD IMAGE
