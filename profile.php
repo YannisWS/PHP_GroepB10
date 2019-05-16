@@ -1,7 +1,11 @@
 <?php
+    require_once("classes/Post.class.php");
+    require_once("classes/User.class.php");
     require_once("bootstrap.php");
-	Session::check();
-	require_once("includes/checklogin.inc.php");
+    Session::check();
+    ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
+    
+    $post = new Post();
 
     if(!empty($_GET)) {
 
@@ -62,9 +66,9 @@
 					<a style="border: 1px solid grey; font-family: Oswald; font-size: small; color: grey;margin-left: 20px; padding: 5px; border-radius:20px; text-decoration: none;" id="<?php echo $unshow?>" href="EditProfile.php">Edit</a>
 				</div>
 				<ul class="userStats">
-					<li><span><?php echo $postcount; ?></span> posts</li>
-					<li><span><?php echo $follow?></span> followers</li>
-					<li><span><?php echo $followers?></span> following</li>
+					<li><span><?php echo $post->getDescription(); ?></span> posts</li>
+            <!--        <li><span><?php echo $follow?></span> followers</li>
+					<li><span><?php echo $followers?></span> following</li>  -->
 				</ul>
 			</div>
 		</div>
@@ -93,3 +97,4 @@
 <!--	<script src="js/app.js"></script>-->
 	</body>
 </html>
+
