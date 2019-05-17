@@ -1,14 +1,11 @@
 <?php
-    require_once("classes/Post.class.php");
-    require_once("classes/User.class.php");
     require_once("bootstrap.php");
     Session::check();
-    ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
+	require_once("includes/checklogin.inc.php");
     
     $post = new Post();
 
     if(!empty($_GET)) {
-
         $userID = $_GET['userID'];
         $_SESSION['targetUserID'] = $_GET['userID'];
 
@@ -53,9 +50,9 @@
 <!doctype html>
 <html lang="en">
 	<?php require_once("includes/header.inc.php"); ?>
-    <body>
+    <body class="partials_profile">
         <?php require_once("includes/nav.inc.php"); ?>
-        <div class="container">
+        <div id="container">
 			<div class="profileInfo">
 			<img class="profilePhoto" src="<?php echo $avatar?>" alt="profile photo">
 			<div class="profileDetails">

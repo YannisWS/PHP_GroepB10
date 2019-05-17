@@ -1,12 +1,7 @@
 <?php
-include_once("classes/User.class.php");
-include_once("classes/Post.class.php");
-  require_once("bootstrap.php");
-  Session::check();
-ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
-include_once("classes/Image.class.php");
-include_once("classes/Security.class.php");
-include_once("includes/checklogin.inc.php");
+	require_once("bootstrap.php");
+    Session::check();
+	require_once("includes/checklogin.inc.php");
 
 $user = new User();
 
@@ -116,32 +111,34 @@ if(!empty($_POST)){
     <title>InstaVibes | Profile settings</title>
     <?php require_once("includes/header.inc.php"); ?>
 </head>
-<body class="partials_profile-edit">   
+<body class="partials_profile_edit">   
    <?php include_once("includes/nav.inc.php"); ?>
-   <div class="profile_settings">
-   <h1>Profile settings</h1>
-   <img src="<?php echo htmlspecialchars($searchedUser->picture);?>" alt="avatar" class="edit_avatar" id="preview">
+   <main class="profile_settings">
    
    <form action="" method="post" enctype="multipart/form-data">
-       <div class="formfield" id="first_input">
-            <label for="image_upload" class="button_upload" id="choose_image">Edit profile pic</label>
-            <input type="file" name="image" id="image_upload" accept=".jpg, .jpeg, .png"  onchange="filePreview(this);">
-        </div>	    
-    
+		<h1>Profile settings</h1>
+       	    
 	    <div class="formfield">
 	        <label for="firstname" class="profile_label">Firstname</label>
 			<input type="text" id="firstname" name="firstname" value="<?php echo htmlspecialchars($searchedUser->firstname); ?>" onchange="showButtons(id);">
 		</div>
 
-	    <div class="formfield">
+	    <div class="formfield" id="first_input">
 	        <label for="lastname" class="profile_label">Lastname</label>
 			<input type="text" id="lastname" name="lastname" value="<?php echo htmlspecialchars($searchedUser->lastname); ?>" onchange="showButtons(id);">
 		</div>
         
         <div class="formfield">
             <label for="description" class="profile_label">Description</label>
-            <textarea id="bio" name="bio"><?php echo htmlspecialchars($searchedUser->bio);?></textarea>
+            <input type="text" id="bio" name="bio" value="<?php echo htmlspecialchars($searchedUser->bio); ?>" onchange="showButtons(id);">
         </div>
+        
+        <div class="formfield" >
+            <label for="image_upload" class="button_upload" id="choose_image">Edit profile pic</label>
+            <input type="file" name="image" id="image_upload" accept=".jpg, .jpeg, .png"  onchange="filePreview(this);">
+        </div>
+        
+        <img src="<?php echo htmlspecialchars($searchedUser->picture);?>" alt="avatar" class="edit_avatar" id="preview">
     
 		<div class="formfield" id="submit">
 			<input type="submit" value="Change" name="general" class="button">	
@@ -150,8 +147,8 @@ if(!empty($_POST)){
     
 
 
-    <h1>Security settings</h1>
     <form action="" method="post" enctype="multipart/form-data">
+    	<h1>Security settings</h1>
 	    <div class="formfield">
 	        <label for="email" class="profile_label">E-mail</label>
 			<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($searchedUser->email);?>">
@@ -177,7 +174,7 @@ if(!empty($_POST)){
 		</div>
         
     </form>
-</div>
+</main>
 </body>
 <script>
     function confirm(x){

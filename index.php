@@ -33,12 +33,16 @@
         crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@4.1.4/imagesloaded.pkgd.min.js"></script>
     <script>
-        $('.grid').masonry({
-            itemSelector: '.grid-item',
+		var $grid = $('.grid').masonry({
+			itemSelector: '.grid-item',
             columnWidth: '.grid-sizer',
             percentPosition: true,
 			gutter: 10
-        });
+		});
+		$grid.imagesLoaded().progress( function() {
+			$grid.masonry('layout');
+		});
     </script>
 </html>

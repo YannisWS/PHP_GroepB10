@@ -1,18 +1,16 @@
 .partials_profile_edit{
-	#container{
-		width: 100%;
-		main{
-			width: 80%;
-			margin: 20px 10% 0 10%;
-			section{
+	width: 100%;
+	main{
+		width: 80%;
+		margin: 56px 10% 20px 10%;
+		form{
+			width: 45%;
+			margin: 0 5% 0 0;
+			float: left;
+			&:nth-child(2){
 				width: 45%;
-				float: left;
-				&:nth-child(2){
-					float: right;
-				}
-				form{
-					width: 100%;
-				}
+				margin: 0 0 0 5%;
+				float: right;
 			}
 		}
 	}
