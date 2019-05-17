@@ -1,15 +1,29 @@
-#container{
-    width: 80%;
-    margin: 0 auto;
-    main{
-        width: 100%;
-        
-        .grid-item {
-          float: left;
-          max-width: 200px;
-            img{
-               max-width: 200px;
-            }
-        }
-    }
+.partials_index{
+	#container{
+		width: 80%;
+		margin: 0 auto;
+		main, .grid{
+			width: 100%;
+			margin: 20px 0;
+			a, .grid-item, .grid-sizer{
+				width: calc(33.33% - 26.66px);
+				padding: 10px;
+				margin: 0 0 10px 0;
+				background: $white;
+				border-radius: $radius;
+				display: block;
+				img{
+					width: 100%;
+					border-radius: $radius;
+				}
+				p{
+					color: $yellow;
+					padding: 10px 0 0 0;
+				}
+			}
+			.grid-sizer{
+				display: none;
+			}
+		}
+	}
 }

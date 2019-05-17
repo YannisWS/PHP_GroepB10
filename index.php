@@ -13,21 +13,18 @@
 <!doctype html>
 <html lang="en">
 	<?php require_once("includes/header.inc.php"); ?>
-    <body>
+    <body class="partials_index">
         <?php require_once("includes/nav.inc.php"); ?>
-        <div class="container">
-            <main>
-            
-                <a href="upload.php"></a> <!-- CREATE NEW POST -->
-                <section class="grid">
-                <?php foreach($feed->getFeedData() as $p): ?>
-                   <a href="post.php?id=<?php echo $p['id']; ?>"><div class="grid-item">
-                   <img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
-                    <p><?php echo $p['description']; ?></p>
-                   </div></a>
-                <?php endforeach; ?>
-                  </section>
-              </main>
+        <div id="container">
+            <main class="grid">
+            	<div class="grid-sizer"></div>
+				<?php foreach($feed->getFeedData() as $p): ?>
+					<a href="post.php?id=<?php echo $p['id']; ?>" class="grid-item">
+						<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
+						<p class="bold"><?php echo $p['description']; ?></p>
+					</a>
+				<?php endforeach; ?>
+			</main>
         </div>
     </body>
     <script 
@@ -40,7 +37,8 @@
         $('.grid').masonry({
             itemSelector: '.grid-item',
             columnWidth: '.grid-sizer',
-            percentPosition: true
-        })
+            percentPosition: true,
+			gutter: 10
+        });
     </script>
 </html>

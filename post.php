@@ -22,8 +22,8 @@
 				<?php foreach($post->getPostData() as $p): ?>  
 				<section>
 					<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
-					<p><?php echo $p['email']; ?> :</p>
-					<p>"<?php echo $p['description']; ?>"</p>
+					<p><?php echo $p['email']; ?>:</p>
+					<p class="bold">"<?php echo $p['description']; ?>"</p>
 					<p class="small">Posted <?php 
 						$date = $p['date']; 
 						$timestamp = strtotime($date); 
