@@ -13,7 +13,7 @@ if(isset($_GET['id'])){
 
 $user->setId($id);
 $searchedUser = $user->getDetails();
-$followed= $user->checkFollower();
+//$followed= $user->checkFollower(); // GEEFT ERROR -> USER.CLASS LIJN 247
 
 
 if(!empty($_POST)){

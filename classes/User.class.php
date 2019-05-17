@@ -238,7 +238,7 @@
         }
         
         
-    
+    	/*
         //kijken of je de user al volgt, geeft aantal rijen terug. Als het geen rijen terug geeft -> volg je de user nog niet
         public function checkFollower(){
             $conn = Db::getInstance();
@@ -247,7 +247,7 @@
             $statement->bindValue(":id2", $this->loggedInUser());
             $statement->bindValue(":id", $this->getId());
             $statement->execute();
-            $amount=$statement->rowCount();;
+            $amount=$statement->rowCount();
             return $amount;
         }
     
@@ -261,7 +261,7 @@
             $amount=$statement->rowCount();
             return $amount;
         }
-        
+        */
     
     
         public function editUser(){
