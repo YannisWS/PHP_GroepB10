@@ -95,6 +95,7 @@
         // SELECT POST FROM DATABASE
         public function getPostData() {
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("
 				SELECT *
                 FROM posts
@@ -112,6 +113,7 @@
         // SELECT COMMENTS FROM DATABASE
         public function getComments() {
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("
 				SELECT *
                 FROM comments
@@ -147,6 +149,7 @@
         // ADD POST TO DATABASE
         public function add() {
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("
                 INSERT INTO posts (post_user_id, description, file_location, filter, location, date) 
                 VALUES (:userId, :description, :imagepath, :filter, :location, :date)
@@ -176,6 +179,7 @@
 		// UPDATE POST IN DATABASE
         public function update() {
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("UPDATE posts SET description = :description WHERE id = :id");
             $statement->bindValue( ":id", $this->getId());
             $statement->bindValue( ":description", $this->getDescription());
@@ -185,6 +189,7 @@
         /** Get all posts info from database */
         public function getAllPosts() {
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             // Select all posts from database
             $statement = $conn->prepare("SELECT posts.id as postId, posts.userId, posts.description, posts.imagePath, posts.imageFilterId, posts.location, posts.locationName, posts.dateAdded, users.username, users.firstName, users.lastName, users.avatarPath, ( SELECT filters.class FROM filters WHERE filters.id = posts.imageFilterId ) as imageFilterClass FROM posts, users WHERE posts.userId = users.id AND posts.dateDeleted = '0000-00-00 00:00:00' ORDER BY posts.dateAdded DESC");
             $statement->execute();

@@ -59,15 +59,17 @@
         public function getLastname(){
             return $this->lastname;
         }
-        
-        // AVATAR
+		
+		// IMAGE PATH
         public function setAvatar($avatar){
+            if( empty($avatar)) {
+                return false;
+            }
             $this->avatar = $avatar;
-            return $this;
         }
- 
-        public function getAvatar(){
-            return $this->avatar;
+		
+		public function getAvatar(){
+            return $this->$avatar;
         }
         
         // BIO
@@ -91,6 +93,7 @@
         {
                 return $this->id;
         }
+		
         
         // REGISTER
         public function register(){
@@ -99,6 +102,7 @@
 
             try{
                 $conn = Db::getInstance();
+				$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 $statement = $conn->prepare("INSERT INTO users (email,  password, firstname, lastname, avatar, bio) VALUES (:email,:password,:firstname,:lastname,:avatar,:bio)");
                 $statement->bindParam(":email", $this->email);
                 $statement->bindParam(":password",$password);
@@ -117,6 +121,7 @@
         // LOGIN
         public function login(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("SELECT * FROM users WHERE email = :email");
             $statement->bindValue(":email", $this->getEmail());
             $statement->execute();
@@ -136,6 +141,24 @@
             }
         
         }
+		
+		// UPLOAD AVATAR
+        public function uploadAvatar() {
+            $fileName = $_FILES["file"]["name"];
+            $fileTmpName = $_FILES["file"]["tmp_name"];
+            $avatar = "img/profile/" . $this->getFirstname() . "-" . $this->getLastname() . "-" . time().".jpg";
+            $fileExt = explode(".",$fileName);
+            $fileActualExt = strtolower(end($fileExt));
+            $allowed = array('jpg','jpeg','png');
+            if(in_array($fileActualExt,$allowed)){
+                move_uploaded_file($fileTmpName, $avatar);
+    
+                $this->avatar = $avatar;
+            }
+            else{
+                return false;
+            }    
+        }
         
         // GET ID BY EMAIL
         public function getIdByEmail(){
@@ -153,6 +176,7 @@
         
 		public function getDetails(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
             $statement->bindValue(":id", $this->getId());
             $statement->execute();
@@ -164,6 +188,7 @@
     
         public function Followers(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("SELECT * FROM `followers` WHERE follower_id = :id AND status=1");
             $statement->bindValue(":id", $this->getId());
             $statement->execute();
@@ -192,6 +217,7 @@
         //wanneer op follow-btn wordt geklikt-> nieuwe rij in tabel followers
         public function newFollow(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("INSERT INTO followers(user_id,follower_id,status) VALUES (:userId, :followerId, 1)");
             $statement->bindValue(":followerId", $this->loggedInUser());
             $statement->bindValue(":userId", $this->getId());
@@ -202,6 +228,7 @@
     
         public function editFollow(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("UPDATE followers SET status = :status WHERE user_id=:userId AND follower_id=:followerId ");
             $statement->bindValue(":followerId", $this->loggedInUser());
             $statement->bindValue(":userId", $this->getId());
@@ -215,6 +242,7 @@
         //kijken of je de user al volgt, geeft aantal rijen terug. Als het geen rijen terug geeft -> volg je de user nog niet
         public function checkFollower(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("SELECT * FROM followers WHERE user_id=:id AND follower_id= :id2 AND status=1");
             $statement->bindValue(":id2", $this->loggedInUser());
             $statement->bindValue(":id", $this->getId());
@@ -225,6 +253,7 @@
     
         public function existFollow(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("SELECT * FROM followers WHERE user_id=:id AND follower_id= :id2");
             $statement->bindValue(":id2", $this->loggedInUser());
             $statement->bindValue(":id", $this->getId());
@@ -237,6 +266,7 @@
     
         public function editUser(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, avatar = :avatar, bio = :bio WHERE id = :id");
             $statement->bindValue(":firstname", $this->getFirstName());
             $statement->bindValue(":lastname", $this->getLastName());
@@ -249,6 +279,7 @@
         
         public function editSecurity(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("UPDATE users SET email = :email, password = :password WHERE id = :id");
             $statement->bindValue(":email", $this->getEmail());
             $statement->bindValue(":password", $this->getPassword());
@@ -260,6 +291,7 @@
     	/* find friends name to live tag them*/   
         public function findUser(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $statement = $conn->prepare("SELECT users.username FROM users, followers WHERE users.id= followers.user_id AND followers.follower_id=7 AND followers.user_id IN( SELECT users.id FROM users WHERE username LIKE :search)");
             $statement->bindValue(":search", $this->getSearch());
             

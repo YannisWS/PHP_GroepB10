@@ -45,6 +45,7 @@
 
         public function currentPassword(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $user = new User();
             $statement = $conn->prepare("select * from users where id = :id");
             $statement->bindValue(":id", $user->loggedInUser());
@@ -63,6 +64,7 @@
         
         public function checkUserName(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $user = new User();
             $statement = $conn->prepare("select username from users where username = :username");
             $statement->bindValue(":username", $this->userName);
@@ -78,6 +80,7 @@
         
         public function checkEmail(){
             $conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $user = new User();
             $statement = $conn->prepare("select email from users where email = :email");
             $statement->bindValue(":email", $this->email);

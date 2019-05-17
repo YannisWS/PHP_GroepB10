@@ -92,6 +92,7 @@ class Notification
 /*save Notificication to db */    
     public function saveNotif(){
         $conn = Db::getInstance();
+		$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $statement= $conn->prepare("INSERT INTO notifications(post_id, user_id,tagged_id) VALUES (:postId,:user,:tagged)");
         $statement->bindValue(':tagged', $this->findUser());
         $statement->bindValue(':user',$_SESSION['user'], PDO::PARAM_INT);
@@ -101,6 +102,7 @@ class Notification
 /* find de user_id van de mensen die getagd zijn */
     public function findUser(){
         $conn = Db::getInstance();
+		$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $statement = $conn->prepare("SELECT id FROM users WHERE lower(username)=lower(:tagged)");
         $statement->bindValue(':tagged', $this->getTagged());
         $statement->execute();
@@ -109,6 +111,7 @@ class Notification
 
     public static function getUnseen(){
         $conn = Db::getInstance();
+		$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $statement = $conn->prepare("SELECT notifications.*, users.username, users.id AS userId, users.picture FROM notifications, users WHERE users.id = notifications.user_id AND notifications.tagged_id=:user AND seen=0 ");
         $statement->bindValue(':user',$_SESSION['user'], PDO::PARAM_INT);
         $statement->execute();
@@ -117,6 +120,7 @@ class Notification
 /*alle nf (seen and unseen) gesorteerd op datum */    
     public static function getAllNf(){
         $conn = Db::getInstance();
+		$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $statement = $conn->prepare("SELECT notifications.*, users.username, users.id AS userId, users.picture FROM notifications, users WHERE users.id = notifications.user_id AND notifications.tagged_id=:user GROUP BY notifications.date DESC ");
         $statement->bindValue(':user',$_SESSION['user'], PDO::PARAM_INT);
         $statement->execute();
@@ -125,6 +129,7 @@ class Notification
 /*wanneer de pagina wordt bezocht worden alle notificaties die ouder zijn dan tijdstip bezoek op seen gezet */
     public function setToSeen(){
         $conn = Db::getInstance();
+		$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $statement = $conn->prepare("UPDATE notifications SET seen=1 WHERE tagged_id=:user AND date<:date");
         $statement->bindValue(':user',$_SESSION['user'], PDO::PARAM_INT);
         $statement->bindValue(':date',$this->getDate());
