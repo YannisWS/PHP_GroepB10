@@ -23,6 +23,7 @@
             //Catch Statement
         }
     }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -64,31 +65,4 @@
         	</aside>
         </div>
     </body>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
-		$(document).ready(function(){ 
-			$("#submit").on("click", function(e){
-				var text = $("#NewComment").val();
-
-				$.ajax({
-					method: "POST",
-					url: "ajax/comment.php",
-					data: {text: text},
-					dataType: "json"
-				})
-				.done(function( res ) {
-					if(res.status == "success") {
-						<?php foreach($post->getUsername() as $u): ?>
-						var p = 
-							"<p><span class=\"yellow\"><?php echo $u['firstname'] . ' ' . $u['lastname']; ?></span>: " + text + "</p>";
-						<?php endforeach; ?>
-						$("#commentList").append(p);
-						$("#NewComment").val("").focus();
-					}
-				});
-
-				e.preventDefault();
-			});
-		});
-	</script>
 </html>

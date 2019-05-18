@@ -1,10 +1,7 @@
 <?php
     if(!empty($_POST)){
-        //qvar_dump($_POST);
         
         $text = $_POST['text'];
-        
-        include("../bootstrap.php");
         
         try{
             $comment = new Comment();
