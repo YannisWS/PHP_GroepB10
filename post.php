@@ -8,9 +8,21 @@
 		$id = $_GET['id'];
 		$post->setId($id);
 //        $post->getPostData();
-
-
 	}
+
+	if(!empty($_POST)){
+		try{	
+			$postId = $_GET['id'];
+			
+			$comment = new Comment();
+			$comment->getUserId($userId);
+			$comment->setPostId($postId);
+			$comment->setText($_POST['NewComment']);
+		}catch (\Throwable $th) {
+			//throw $th;
+		}
+	}
+//	$comments = Comment::getComments();
 ?>
 <!doctype html>
 <html lang="en">
@@ -34,10 +46,10 @@
        			<?php endforeach; ?>
         	</main>
         	<aside>
-        		<article> <!-- COMMENT SECTION -->
+        		<article id="commentList"> <!-- COMMENT SECTION -->
         		    <?php foreach($post->getComments() as $c): ?>
         		        <p>
-        		        	<span<?php if($c['comment_user_id'] == $_SESSION['user']){echo " class=\"yellow\"";}?>>
+        		        	<span <?php if($c['comment_user_id'] == $_SESSION['user']){echo "class=\"yellow\"";}?>>
 							<?php echo $c['firstname'] . " " . $c['lastname']; ?>
      		        		</span>
       		        		
@@ -46,36 +58,36 @@
         		    <?php endforeach; ?>
         		</article>
         		<form action="" method="post"> <!-- ADD COMMENT -->
-        			<input type="text" id="NewComment" placeholder="add a comment">
-        			<input type="submit" value="send">
+        			<input type="text" id="NewComment" name="NewComment" placeholder="add a comment" required>
+        			<input type="submit" id="submit" value="send">
         		</form>
         	</aside>
         </div>
     </body>
-    <script 
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
-//		$("#btnSubmit").keyup(function(e){
-//			var email = $("#email").val();
-//            console.log(text);
-//            $.ajax({
-//            	method: "POST",
-//            	url: "ajax/email.php",
-//            	data: { email: email },
-//            	dataType: "JSON"
-// 			})
-//            .done(function( res ) {
-//            	if(res.status == "succes"){
-//            	var li = "<li style='display:none'>" + text + "</li>"; 
-//                	$("#listupdates").append(li);
-//                	$("#comment").val("").focus();
-//                	$("#listupdates li").last().slideDown();
-//				}
-//			});
-//			e.preventDefault();
-//    	});
+		$("#submit").on("click", function(e){
+            var text = $("#NewComment").val();
+            
+			$.ajax({
+				method: "POST",
+				url: "ajax/comment.php",
+				data: {text: text},
+				dataType: "json"
+			})
+			.done(function( res ) {
+				if(res.status == "success") {
+					<?php foreach($post->getUsername() as $u): ?>
+					var p = 
+						"<p style=\"display:none;\"><span class=\"yellow\"><?php echo $u['firstname'] . ' ' . $u['lastname']; ?></span>: " + text + "</p>";
+					<?php endforeach; ?>
+					$("#commentList").append(p);
+					$("#comment").val("").focus();
+					$("#commentList p").last().slideDown();
+				}
+			});
+            
+			e.preventDefault();
+		});
 	</script>
 </html>

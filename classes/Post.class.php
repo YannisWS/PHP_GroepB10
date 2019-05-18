@@ -109,6 +109,21 @@
 			
             return $result;
         }
+		
+		public function getUsername(){
+			$conn = Db::getInstance();
+			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $statement = $conn->prepare("
+				SELECT firstname, lastname
+                FROM users
+                WHERE id = :id
+				");
+            $statement->bindValue(":id", $_SESSION['user']);
+            $statement->execute();
+            $result = $statement->fetchAll();
+			
+            return $result;
+		}
         
         // SELECT COMMENTS FROM DATABASE
         public function getComments() {
