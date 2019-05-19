@@ -1,11 +1,15 @@
 <?php
-    if(!empty($_POST)){
+	if(!empty($_POST)){
         
         $text = $_POST['text'];
+        $postId = $_POST['postId'];
+		
+		include("../bootstrap.php");
         
         try{
             $comment = new Comment();
             $comment->setText($text);
+            $comment->setPostId($postId);
             $comment->save();
             
             $result = [

@@ -73,7 +73,7 @@
 				$.ajax({
 					method: "POST",
 					url: "ajax/comment.php",
-					data: {text: text},
+					data: {text: text, postId: "<?php echo $postId ?>"},
 					dataType: "json"
 				})
 				.done(function( res ) {
