@@ -36,9 +36,7 @@
 			$statement->bindValue(":user_id", $_SESSION['user']);
 			$statement->bindValue(":text", $this->getText());
 			$statement->bindValue(":date", strftime("%Y-%m-%d %H:%M:%S"));
-			$statement->execute();
-
-            return true;    
+			return $statement->execute();
 		}
 	}
 ?>
