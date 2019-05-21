@@ -173,15 +173,18 @@
 
 		
 		// Merge TestAmelie - Master
-        
+
 		public function getDetails(){
             $conn = Db::getInstance();
-			$conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-            $statement = $conn->prepare("SELECT * FROM `users` WHERE id = :id");
-            $statement->bindValue(":id", $this->getId());
+            $statement = $conn->prepare("
+            SELECT *
+            FROM users
+            WHERE id = :user
+            ");
+            $statement->bindValue(':user',$_SESSION['user'], PDO::PARAM_INT);   
             $statement->execute();
-            $result = $statement->fetch(PDO::FETCH_OBJ);
-            
+            $result = $statement->fetchAll();
+        
             return $result;
     
         }
