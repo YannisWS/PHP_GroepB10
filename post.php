@@ -3,7 +3,7 @@
     Session::check();
 	require_once("includes/checklogin.inc.php");
 	
-	$postId = $_GET['id'];
+	$postId = (int)$_GET['id'];
 
 	if(isset($_GET['id'])){
 		$post = new Post;
@@ -13,11 +13,9 @@
 	if(!empty($_POST)){
         try{
 			$comment = new Comment();
-			
-            $newComment = $_POST['NewComment'];
-
+            $comment->setUserId($_SESSION['user']);
             $comment->setPostId($postId);
-			$comment->setText($newComment);
+			$comment->setText($_POST['NewComment']);
 			$comment->save();
         }catch(Exception $e) {
             //Catch Statement
@@ -49,11 +47,14 @@
         		<article id="commentList"> <!-- COMMENT SECTION -->
         		    <?php foreach($post->getComments() as $c): ?>
         		        <p>
-        		        	<span <?php if($c['comment_user_id'] == $_SESSION['user']){echo "class=\"yellow\"";}?>>
-							<?php echo $c['firstname'] . " " . $c['lastname']; ?>
-     		        		</span>
-      		        		
-       		        		<?php echo ": " . $c['comment_text']; ?>
+        		        	<img src="<?php echo $c['avatar'] ?>" alt="profilepic">
+        		        	<span class="comment">
+								<span <?php if($c['comment_user_id'] == $_SESSION['user']){echo "class=\"yellow\"";}?>>
+								<?php echo $c['firstname'] . " " . $c['lastname']; ?>
+								</span>
+
+								<?php echo ": " . $c['comment_text']; ?>
+       		        		</span>
         		        </p>
         		    <?php endforeach; ?>
         		</article>
@@ -67,26 +68,29 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
 		$(document).ready(function(){ 
-			$("#submit").on("click", function(e){
+			$("#submit").on("click", function(e){		
+				var userId = <?php echo $_SESSION['user'] ?>;
+				var postId = <?php echo $_GET['id'] ?>;
 				var text = $("#NewComment").val();
 
 				$.ajax({
 					method: "POST",
 					url: "ajax/postcomment.php",
-					data: {text: text, postId: "<?php echo $postId ?>"},
+					data: {userId: userId, postId: postId, text: text},
 					dataType: "json"
 				})
-				.done(function( res ) {
+				.done(function(res) {
 					if(res.status == "success") {
 						<?php foreach($post->getUsername() as $u): ?>
 						var p = 
-							"<p><span class=\"yellow\"><?php echo $u['firstname'] . ' ' . $u['lastname']; ?></span>: " + text + "</p>";
+							"<p><img src=" + <?php echo $c['avatar'] ?> + " alt=\"profilepic\"><span class=\"comment\"><span class=\"yellow\"><?php echo $u['firstname'] . ' ' . $u['lastname']; ?></span>: " + text + "</span></p>";
 						<?php endforeach; ?>
 						$("#commentList").append(p);
 						$("#NewComment").val("").focus();
+					}else{
+						console.log(res.status);
 					}
-				});
-
+				})
 				e.preventDefault();
 			});
 		});

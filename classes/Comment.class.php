@@ -1,8 +1,19 @@
 <?php
 	class Comment{		
 		
+		private $userId;
 		private $postId;
 		private $text;
+		
+		// USER ID
+		public function getUserId(){
+			return $this->userId;
+		}
+		
+		public function setUserId($userId){
+			$this->userId = $userId;
+			return $this;
+		}
 		
 		// POST ID
 		public function getPostId(){
@@ -32,10 +43,15 @@
 				INSERT INTO comments (comment_user_id, comment_text, comment_post_id, comment_date) 
 				VALUES (:user_id, :text, :post_id, :date)
 				");
+			$statement->bindValue(":user_id", $this->getUserId());
 			$statement->bindValue(":post_id", $this->getPostId());
-			$statement->bindValue(":user_id", $_SESSION['user']);
 			$statement->bindValue(":text", $this->getText());
 			$statement->bindValue(":date", strftime("%Y-%m-%d %H:%M:%S"));
+			
+//			var_dump($this->getUserId());
+//			var_dump($this->getPostId());
+//			var_dump($this->getText());
+			
 			return $statement->execute();
 		}
 	}
