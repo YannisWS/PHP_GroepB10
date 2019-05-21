@@ -22,7 +22,7 @@
 				<?php foreach($post->getPostData() as $p): ?>  
 				<section>
 					<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
-					<p><?php echo $p['firstname'] . " " . $p['lastname']; ?>:</p>
+					<a href="profile.php?id=<?php echo $p['id']; ?>"><p><?php echo $p['firstname'] . " " . $p['lastname']; ?>:</p></a>
 					<p class="bold">"<?php echo $p['description']; ?>"</p>
 					<p class="small">Posted <?php 
 						$date = $p['date']; 

@@ -2,23 +2,30 @@
     require_once("bootstrap.php");
 	Session::check();
 
-    if(!isset($_SESSION["user"])) {
-		header("Location: login.php");
-	}else{
-		$profile = new User();
-		$p = $profile->getDetails();
+	if(!empty($_GET)) {
+		if($_SESSION['user'] = $_GET['id']){
+			$profile = new User();
+			$p = $profile->getDetails();
 
-		$username = $p[0]["email"];
-		$firstname = $p[0]["firstname"];
-		$lastname = $p[0]["lastname"];
-		$bio = $p[0]["bio"];
-		$avatar = $p[0]["avatar"];
+			$username = $p[0]["email"];
+			$firstname = $p[0]["firstname"];
+			$lastname = $p[0]["lastname"];
+			$bio = $p[0]["bio"];
+			$avatar = $p[0]["avatar"];
+	
+			$o = new feed();
+		}else{
+			if(isset($_GET['id'])){
+				$id = $_GET['id'];
+				$profile->setId($id);
+				$p = $profile->getFriendFeed();
+		
+			}
+		}
+		
 
-		$o = new feed();
+	}	
 
-
-
-	}
 ?>
 <!doctype html>
 <html lang="en">

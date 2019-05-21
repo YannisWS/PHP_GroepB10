@@ -1,6 +1,17 @@
 <?php
     class Feed{
 
+        private $id;
+
+        public function setId($id) {
+            $this->id = $id;
+        }
+		
+		public function getId() {
+//            return $this->id;
+            return (int)$this->id;
+        }
+
         public function getFriendData(){
             $conn = Db::getInstance();
             $statement = $conn->prepare("
@@ -44,6 +55,21 @@
             
             return $result;
 
+
+        }
+
+        public function getFriendFeed(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("
+				SELECT *
+                FROM posts
+                WHERE post_user_id = :user
+                ");
+            $statement->bindValue(':user',$this->getId());    
+            $statement->execute();
+            $result = $statement->fetchAll();
+            
+            return $result;
 
         }
 
