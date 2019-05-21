@@ -1,11 +1,27 @@
 <?php
     class Feed{
 
+        public function getFriendData(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("
+				SELECT *
+                FROM posts
+                LEFT JOIN friendlist ON friend_id = post_user_id
+                WHERE user_id = :user
+                ");
+            $statement->bindValue(':user',$_SESSION['user'], PDO::PARAM_INT);   
+            $statement->execute();
+            $result = $statement->fetchAll();
+            
+            return $result;
+
+        }
+        
         public function getFeedData() {
             $conn = Db::getInstance();
             $statement = $conn->prepare("
 				SELECT *
-				FROM posts
+                FROM posts
 				");
             $statement->execute();
             $result = $statement->fetchAll();
@@ -13,6 +29,8 @@
             return $result;
 
         }
+
+    
         
     } 
 

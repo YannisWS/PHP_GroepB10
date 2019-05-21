@@ -5,7 +5,12 @@
 	if(!isset($_SESSION["user"])){
 		header("Location: login.php");
 	}else{
+        
         $feed = new Feed;
+        //$f = $feed->getFriendData();
+        
+
+
         
     }
     
@@ -23,7 +28,16 @@
 						<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
 						<p class="bold"><?php echo $p['description']; ?></p>
 					</a>
-				<?php endforeach; ?>
+                <?php endforeach; ?>
+                
+                <?php foreach($feed->getFriendData() as $p): ?>
+					<a href="post.php?id=<?php echo $p['id']; ?>" class="grid-item">
+						<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
+                        <p class="bold"><?php echo $p['description']; ?></p>
+                        <p>post by a friend</p>
+					</a>
+                <?php endforeach; ?>
+                </div>
 			</main>
         </div>
     </body>
