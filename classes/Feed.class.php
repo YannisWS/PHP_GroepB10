@@ -30,6 +30,23 @@
 
         }
 
+
+        public function getOwnFeed(){
+            $conn = Db::getInstance();
+            $statement = $conn->prepare("
+				SELECT *
+                FROM posts
+                WHERE post_user_id = :user
+                ");
+            $statement->bindValue(':user',$_SESSION['user'], PDO::PARAM_INT);    
+            $statement->execute();
+            $result = $statement->fetchAll();
+            
+            return $result;
+
+
+        }
+
     
         
     } 
