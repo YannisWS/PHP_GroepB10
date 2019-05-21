@@ -23,6 +23,7 @@
             //Catch Statement
         }
     }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -34,7 +35,7 @@
 				<?php foreach($post->getPostData() as $p): ?>  
 				<section>
 					<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
-					<a href="profile.php?id=<?php echo $p['id']; ?>"><p><?php echo $p['firstname'] . " " . $p['lastname']; ?>:</p></a>
+					<p><?php echo $p['firstname'] . " " . $p['lastname']; ?>:</p>
 					<p class="bold">"<?php echo $p['description']; ?>"</p>
 					<p class="small">Posted <?php 
 						$date = $p['date']; 
@@ -64,31 +65,4 @@
         	</aside>
         </div>
     </body>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
-		$(document).ready(function(){ 
-			$("#submit").on("click", function(e){
-				var text = $("#NewComment").val();
-
-				$.ajax({
-					method: "POST",
-					url: "ajax/postcomment.php",
-					data: {text: text, postId: "<?php echo $postId ?>"},
-					dataType: "json"
-				})
-				.done(function( res ) {
-					if(res.status == "success") {
-						<?php foreach($post->getUsername() as $u): ?>
-						var p = 
-							"<p><span class=\"yellow\"><?php echo $u['firstname'] . ' ' . $u['lastname']; ?></span>: " + text + "</p>";
-						<?php endforeach; ?>
-						$("#commentList").append(p);
-						$("#NewComment").val("").focus();
-					}
-				});
-
-				e.preventDefault();
-			});
-		});
-	</script>
 </html>

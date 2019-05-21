@@ -33,14 +33,14 @@
       	<?php require_once("includes/nav.inc.php"); ?>
         <main>
 			<form action="" method="post" enctype="multipart/form-data">
-				<input type="file" name="file" accept="image/*" onchange="loadFile(event)" id="fileUpload"/>
-				<input type="text" name="description" id="description" placeholder="description">
-				<input type="text" name="location" id="location" placeholder="location">
+				<input type="file" name="file" accept="image/*" onchange="loadFile(event)" id="fileUpload" required>
+				<input type="text" name="description" id="description" placeholder="description" required>
+				<input type="text" name="location" id="location" placeholder="location" required>
 				
 				<?php if(isset($error)){echo "<p class='error'>$error</p>";} ?>
 
 				<div class="custom-select" style="width:200px;">
-					<select id="slctFilter" name="slctFilter" onchange="filterGo(this.id)">
+					<select id="slctFilter" name="slctFilter" onchange="filterGo(this.id)" required>
  						<div id="content">
                             <option value="0">Select Filter:</option>
                             <option value="_1997">1977</option>
