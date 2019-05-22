@@ -8,11 +8,7 @@
         
         $feed = new Feed;
         //$f = $feed->getFriendData();
-        
-
-        
     }
-    
 ?>
 <!doctype html>
 <html lang="en">
@@ -23,21 +19,20 @@
             <main class="grid">
             	<div class="grid-sizer"></div>
 				<?php foreach($feed->getFeedData() as $p): ?>
-					<a href="post.php?id=<?php echo $p['id']; ?>" class="grid-item">
-						<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
-						<p class="bold"><?php echo $p['description']; ?></p>
+					<a href="post.php?id=<?php echo htmlspecialchars($p['id']); ?>" class="grid-item">
+						<img src="<?php echo htmlspecialchars($p['file_location']); ?>" class="<?php echo htmlspecialchars($p['filter']); ?>" alt="Image">
+						<p class="bold"><?php echo htmlspecialchars($p['description']); ?></p>
 					</a>
                 <?php endforeach; ?>
                 
                 <?php foreach($feed->getFriendData() as $p): ?>
-					<a href="post.php?id=<?php echo $p['id']; ?>" class="grid-item">
-						<img src="<?php echo $p['file_location']; ?>" class="<?php echo $p['filter']; ?>" alt="Image">
-                        <p class="bold"><?php echo $p['description']; ?></p>
+					<a href="post.php?id=<?php echo htmlspecialchars($p['id']); ?>" class="grid-item">
+						<img src="<?php echo htmlspecialchars($p['file_location']); ?>" class="<?php echo htmlspecialchars($p['filter']); ?>" alt="Image">
+                        <p class="bold"><?php echo htmlspecialchars($p['description']); ?></p>
                         <p>post by a friend</p>
 					</a>
                 <?php endforeach; ?>
-                </div>
-			</main>
+        	</main>
         </div>
     </body>
     <script 

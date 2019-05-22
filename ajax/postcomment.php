@@ -1,4 +1,7 @@
 <?php
+	require_once("../bootstrap.php");
+  	Session::check();
+	
 	if(!empty($_POST)){
         
         $userId = $_POST['userId'];
@@ -30,7 +33,6 @@
 				"status" => "success",
 				"message" => ">Comment has been saved"
 			];
-
 			echo json_encode($result);
         }
     };
