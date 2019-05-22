@@ -49,7 +49,7 @@
         		        <p>
         		        	<img src="<?php echo htmlspecialchars($c['avatar']); ?>" alt="profilepic">
         		        	<span class="comment">
-								<span <?php if($c['comment_user_id'] == $_SESSION['user']){echo htmlspecialchars("class=\"yellow\"");}?>>
+								<span <?php if($c['comment_user_id'] == $_SESSION['user']){echo 'style="color:#F3B54A"';}?>>
 								<?php echo htmlspecialchars($c['firstname'] . " " . $c['lastname']); ?>
 								</span>
 
@@ -85,7 +85,7 @@
 					if(res.status == "success") {
 						<?php foreach($post->getUsername() as $u): ?>
 						var p = 
-							"<p><img src=" + <?php echo htmlspecialchars($c['avatar']); ?> + " alt=\"profilepic\"><span class=\"comment\"><span class=\"yellow\"><?php echo htmlspecialchars($u['firstname'] . ' ' . $u['lastname']); ?></span>: " + text + "</span></p>";
+							"<p><img src=" + <?php echo htmlspecialchars($c['avatar']); ?> + " alt=\"profilepic\"><span class=\"comment\"><span style=\"color:#F3B54A\"><?php echo htmlspecialchars($u['firstname'] . ' ' . $u['lastname']); ?></span>: " + text + "</span></p>";
 						<?php endforeach; ?>
 						$("#commentList").append(p);
 						$("#NewComment").val("").focus();
