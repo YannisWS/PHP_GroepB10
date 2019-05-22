@@ -139,8 +139,22 @@
                 throw new Exception("This username does not exist");
                 return false;
             }
-        
         }
+		
+		// CHECK PASSWORD
+		public function checkPassword(){
+			if($this->getPassword() == $this->getPasswordConfirmation()){
+				if(strlen($this->getPassword()) > 5){
+					return true;
+				}else{
+					echo "Password must be longer than 6 characters";
+					return false;
+				}
+			}else{
+				echo "Password must be the same";
+				return false;
+			}
+		}
 		
 		// UPLOAD AVATAR
         public function uploadAvatar() {

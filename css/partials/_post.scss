@@ -8,7 +8,7 @@
         align-items: center;
 		justify-content: center;
 		section{
-			width: calc(100% - 20px);
+			max-width: calc(100% - 20px);
 			background: $white;
 			padding: 10px;
 			border-radius: $radius;

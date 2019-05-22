@@ -10,16 +10,17 @@
 			$user-> setFirstname($_POST['firstname']);
 			$user-> setLastname($_POST['lastname']);
 			$user-> setBio($_POST['bio']);
+			$user-> checkPassword();
 			$user-> uploadAvatar();
 			$user-> register();
 		}catch(Exception $e) {
             //Catch Statement
-        }finally{
-			$id = $user->getIdByEmail();
-            session_start();
-			$_SESSION['user'] = (int)$id['id'];
-            header('Location: index.php');
-		}
+        }
+		
+		$id = $user->getIdByEmail();
+        session_start();
+		$_SESSION['user'] = (int)$id['id'];
+        header('Location: index.php');
 	}
 ?>
 <!doctype html>
